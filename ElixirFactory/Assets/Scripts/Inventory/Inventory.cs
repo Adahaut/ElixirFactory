@@ -1,29 +1,42 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Item> items = new List<Item>(); 
-    public int maxInventorySize = 20; 
+    public List<Item> items = new List<Item>();
+    private int rowSize = 8;
+    private int currentInventoryCount;
+
+    private void Start()
+    {
+        AddNewRowInInventory();
+    }
+
+    public void AddNewRowInInventory()
+    {
+        for (int i = 0; i < rowSize; i++)
+        {
+            AddItem(new Item());
+        }
+        GetComponent<InventoryUI>().UpdateInventoryUI();
+    }
     public void AddItem(Item newItem)
     {
-        if (items.Count < maxInventorySize)
-        {
-            items.Add(newItem);
-            Debug.Log(newItem.itemName + " a été ajouté.");
-        }
-        else
-        {
-            Debug.Log("Inventaire plein !");
-        }
+        items.Add(newItem);
     }
 
     public void RemoveItem(Item item)
     {
-        if (items.Contains(item))
+        items.Remove(item);
+    }
+
+    private void CheckLastInventoryItem()
+    {
+        if (items[items.Count - 1].name != "")
         {
-            items.Remove(item);
-            Debug.Log(item.itemName + " a été retiré.");
+            AddNewRowInInventory();
         }
     }
 }

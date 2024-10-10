@@ -14,16 +14,9 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateInventoryUI()
     {
-        foreach (Transform child in inventoryGrid)
+        for (int i = 0; i < inventory.items.Count; i++)
         {
-            Destroy(child.gameObject); 
-        }
-
-        foreach (Item item in inventory.items)
-        {
-            GameObject slot = Instantiate(inventorySlotPrefab, inventoryGrid);
-            slot.transform.Find("ItemIcon").GetComponent<Image>().sprite = item.itemIcon;
-            slot.transform.Find("ItemName").GetComponent<Text>().text = item.itemName;
+            GameObject item = Instantiate(inventorySlotPrefab, inventoryGrid);
         }
     }
 }

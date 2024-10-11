@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VakoomState : MonoBehaviour
 {
-    private StateMachine stateMachine;
+   /* private StateMachine stateMachine;
 
     private void Start()
     {
@@ -91,7 +91,7 @@ public class VakoomState : MonoBehaviour
         {
             currentState?.Update();
         }
-    }
+    }*/
 
 
 }

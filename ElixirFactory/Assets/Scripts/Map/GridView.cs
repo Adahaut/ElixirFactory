@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class GridView : MonoBehaviour
 {
-    public GameObject casePrefab;
-    public GameObject[,] casesGo;
-
-    public void CreateGrid(int gridSize)
+    public void CreateGrid(GridModel model)
     {
-        casesGo = new GameObject[gridSize, gridSize];
-        for (int i = 0; i < gridSize; i++)
+        for (int i = 0; i < model.gridSize; i++)
         {
-            for (int j = 0; j < gridSize; j++)
+            for (int j = 0; j < model.gridSize; j++)
             {
-                Vector3 pos = new Vector3(i, j, 0);
-                GameObject caseGo = Instantiate(casePrefab, pos, Quaternion.identity);
-                casesGo[i, j] = caseGo;
+                model.grid[i, j].GetComponent<Case>().ShowCase();
             }
         }
     }

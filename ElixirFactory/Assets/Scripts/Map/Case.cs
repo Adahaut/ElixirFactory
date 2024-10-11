@@ -5,8 +5,11 @@ using UnityEngine.UIElements;
 
 public class Case : MonoBehaviour
 {
-    private void InstantiateCase(Image image, string name, bool isOccupied)
+    public Sprite sprite;
+    private string name;
+    private bool isOccupied;
+    public void ShowCase()
     {
-        image = new Image();
+        GetComponent<SpriteRenderer>().sprite = sprite;
     }
 }

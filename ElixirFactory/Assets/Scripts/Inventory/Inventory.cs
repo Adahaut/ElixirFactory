@@ -29,26 +29,30 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < items.Count; i++)
         {
             if (items[i].itemName == newItem.itemName)
-            {
-                
-                if (items[i].maxstack < items[i].currentStack + newItem.currentStack)
-                {
-                    //create other items
-                }
-                else
+            { 
+                int difference = items[i].maxstack - (items[i].currentStack + newItem.currentStack);
+                if (difference > 0)
                 {
                     items[i].currentStack += newItem.currentStack;
+                    newItem.currentStack = 0;
+                    difference = 0;
+                    Debug.Log(difference);
+                }
+                else if (difference < 0)
+                {
+                    items[i].currentStack += newItem.currentStack + difference;
+                    newItem.currentStack -= newItem.currentStack + difference;
+                    AddStackOfItem(newItem.currentStack, newItem);
                 }
                 CheckLastInventoryItem();
                 GetComponent<InventoryUI>().UpdateInventoryUI();
-                return;
             }
             else if (items[i].itemName == "")
             {
-                CreateItemToAddInInventory(items[i], newItem);
+                // CreateItemToAddInInventory(items[i], newItem);
+                AddStackOfItem(newItem.currentStack, newItem);
                 CheckLastInventoryItem();
                 GetComponent<InventoryUI>().UpdateInventoryUI();
-                return;
             }
         }
     }
@@ -66,11 +70,50 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private int CheckForFirstEmptySlot()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].itemName == "")
+            {
+                return i;
+            }
+        }
+        return items.Count - 1;
+    }
+
     private void CreateItemToAddInInventory(Item itemInInventory, Item newItem)
     {
-        itemInInventory.itemName = newItem.itemName;
-        itemInInventory.currentStack = newItem.currentStack;
-        itemInInventory.maxstack = newItem.maxstack;
-        itemInInventory.itemIcon = newItem.itemIcon;
+            itemInInventory.itemName = newItem.itemName;
+            itemInInventory.currentStack = newItem.currentStack;
+            itemInInventory.maxstack = newItem.maxstack;
+            itemInInventory.itemIcon = newItem.itemIcon;
     }
+
+    private void AddStackOfItem(int amountToAdd, Item newItem)
+    {
+        while (amountToAdd > 0)
+        {
+            int newStackSlot = CheckForFirstEmptySlot();
+            items[newStackSlot].maxstack = newItem.maxstack;
+            if (items[newStackSlot].maxstack < amountToAdd)
+            {
+                items[newStackSlot].currentStack = items[newStackSlot].maxstack;
+                amountToAdd -= items[newStackSlot].maxstack;
+                newItem.currentStack -= items[newStackSlot].maxstack;
+            }
+            else
+            {
+                items[newStackSlot].currentStack = amountToAdd;
+                amountToAdd = 0;
+                newItem.currentStack = 0;
+            }
+            items[newStackSlot].itemIcon = newItem.itemIcon;
+            items[newStackSlot].itemName = newItem.itemName;
+            
+            
+        }
+    }
+
+
 }

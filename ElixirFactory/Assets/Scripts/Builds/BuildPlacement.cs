@@ -46,6 +46,11 @@ public class BuildPlacement : MonoBehaviour
         if (currentBuildPreview != null)
         {
             SetBuildPreviewPosition();
+            if (controller.mouseLeftClick)
+            {
+                currentBuildPreview = null;
+                //exec code to get cases under structure
+            }
         }
     }
 }

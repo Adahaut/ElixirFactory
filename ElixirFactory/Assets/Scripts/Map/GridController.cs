@@ -2,19 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GridController : MonoBehaviour
 {
     private GridModel _model;
     private GridView _view;
 
-    
+
     [Header("   Noise Options")] [Range(0, 1)]
-    [SerializeField] private float perlinScale;
+    public float perlinScale;
+    public float seed;
+    
     
     
     private void Start()
     {
+
+        if (seed == 0)
+        {
+            seed = Random.Range(0, 10000);
+        }
+        Debug.Log("Seed: " + seed);
+        
          _model = gameObject.GetComponent<GridModel>();
         _model.grid = new GameObject[_model.gridSize, _model.gridSize];
         InitializeGrid();
@@ -30,24 +40,28 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < _model.gridSize; j++)
             {
-                _model.grid[i, j] = InstiantiatePrefab(new Vector2(i, j));
+                _model.grid[i, j] = InstantiatePrefab(new Vector2(i, j));
             }
         }
     }
 
-    public GameObject InstiantiatePrefab(Vector2 position)
+    public GameObject InstantiatePrefab(Vector2 position)
     {
-        GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map);
-        
-        float noiseValue = Mathf.PerlinNoise(position.x * perlinScale, position.y * perlinScale);
-        
-        if (noiseValue < 0.5f)
-        {
-            prefab.GetComponent<Case>().sprite = _model.grassSprite;
-        }
-        else
-        {
-            prefab.GetComponent<Case>().sprite = _model.rockSprite;
+        GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map); 
+        float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
+        switch (noiseValue)
+        { 
+            case < 0.1f:
+                prefab.GetComponent<Case>().sprite = _model.waterSprite;
+                break;
+            case < 0.7f:
+                prefab.GetComponent<Case>().sprite = _model.grassSprite;
+                break;
+            case >= 0.7f:
+                prefab.GetComponent<Case>().sprite = _model.rockyGroundSprite;
+                break;
+            default:
+                break;
         }
         return prefab;
     }

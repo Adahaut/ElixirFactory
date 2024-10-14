@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,24 +8,33 @@ public class InventoryUI : MonoBehaviour
     public Inventory inventory; 
     public GameObject inventorySlotPrefab; 
     public Transform inventoryGrid; 
+    private List<GameObject> inventorySlots = new();
 
     void Start()
     {
-        UpdateInventoryUI();
+    }
+
+    public void InitInventoryUI()
+    {
+        for (int i = 0; i < inventory.rowSize; i++)
+        {
+            GameObject item = Instantiate(inventorySlotPrefab, inventoryGrid);
+            item.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            inventorySlots.Add(item);
+        }
     }
 
     public void UpdateInventoryUI()
     {
-        foreach (Transform child in inventoryGrid)
+        for (int i = 0; i < inventory.items.Count; i++)
         {
-            Destroy(child.gameObject); 
-        }
-
-        foreach (Item item in inventory.items)
-        {
-            GameObject slot = Instantiate(inventorySlotPrefab, inventoryGrid);
-            slot.transform.Find("ItemIcon").GetComponent<Image>().sprite = item.itemIcon;
-            slot.transform.Find("ItemName").GetComponent<Text>().text = item.itemName;
+            if (inventory.items[i].itemName != "")
+            {
+                inventorySlots[i].GetComponentInChildren<TextMeshProUGUI>().text =
+                    inventory.items[i].currentStack.ToString();
+                inventorySlots[i].GetComponent<Image>().sprite =
+                    inventory.items[i].itemIcon;
+            }
         }
     }
 }

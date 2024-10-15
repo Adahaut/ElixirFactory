@@ -7,10 +7,15 @@ using Random = Unity.Mathematics.Random;
 
 public class CameraController : MonoBehaviour
 {
+    [Header("    Movement Settings")]
+    [SerializeField] private Transform topLeft;
+    [SerializeField] private Transform bottomRight;
+    private float widthRatio;
+    
     [Header("    Camera Settings")]
     [SerializeField] Controller _controller;
     private Camera cam;
-    private float speed = 4.0f;
+    private float speed = 15.0f;
     
     [Header("    Zoom Settings")]
     [SerializeField] private float size;
@@ -23,18 +28,39 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        widthRatio = (float)Screen.width / (float)Screen.height;
         cam = Camera.main;
     }
 
     private void Update()
     {
-        MoveCamera();
         ZoomCamera();
+        MoveCamera();
     }
 
     public void MoveCamera()
     {
-        cam.transform.position += (Vector3)_controller.cameraAxis * (speed * Time.deltaTime);
+        
+        var camTransform = cam.transform.position + (Vector3)_controller.cameraAxis * (speed * Time.deltaTime);;
+        if (camTransform.x - (cam.orthographicSize * widthRatio) < topLeft.position.x)
+        {
+            camTransform.x = topLeft.position.x + (cam.orthographicSize * widthRatio);
+        }
+        else if (camTransform.x + (cam.orthographicSize * widthRatio) > bottomRight.position.x)
+        {
+            camTransform.x = bottomRight.position.x - (cam.orthographicSize * widthRatio);
+        }
+
+        if (camTransform.y + cam.orthographicSize > topLeft.position.y)
+        {
+            camTransform.y = topLeft.position.y - cam.orthographicSize;
+        }
+        else if (camTransform.y - cam.orthographicSize < bottomRight.position.y)
+        {
+            camTransform.y = bottomRight.position.y + cam.orthographicSize;
+        }
+        
+        cam.transform.position = camTransform; 
     }
 
     public void ZoomCamera()

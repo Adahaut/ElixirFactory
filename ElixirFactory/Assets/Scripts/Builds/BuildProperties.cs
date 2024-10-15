@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildProperties : MonoBehaviour
 {
-    private Vector2 coordinates;
+    public Vector2 coordinates;
     public Vector2 size;
 
     public void SetCoordinates(Vector2 newCoordinates)

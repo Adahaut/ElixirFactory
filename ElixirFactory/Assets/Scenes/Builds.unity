@@ -2519,7 +2519,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1450437470}
+  gridManager: {fileID: 294541823}
   gridModel: {fileID: 294541824}
+  gridController: {fileID: 0}
 --- !u!4 &883268205
 Transform:
   m_ObjectHideFlags: 0

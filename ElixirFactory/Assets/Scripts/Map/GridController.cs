@@ -62,4 +62,20 @@ public class GridController : MonoBehaviour
         }
         return prefab;
     }
+
+    public bool CheckIfCaseFree(Vector2 coords, Vector2 size)
+    {
+        for (int y = 0; y < size.y; y++)
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                if (_model.grid[(int)coords.x + x, (int)coords.y + y].GetComponent<Case>().isOccupied)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

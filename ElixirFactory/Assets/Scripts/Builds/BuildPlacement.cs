@@ -10,12 +10,16 @@ public class BuildPlacement : MonoBehaviour
     private GameObject currentBuildPreview;
     private BuildProperties currentBuildProperties;
     public Controller controller;
+    public GameObject gridManager;
     public GridModel gridModel;
+    public GridController gridController;
     private Camera camera;
 
     private void Start()
     {
         camera = Camera.main;
+        gridModel = gridManager.GetComponent<GridModel>();
+        gridController = gridManager.GetComponent<GridController>();
     }
 
     public void SetBuildPrefab(GameObject buildPrefab)
@@ -48,11 +52,15 @@ public class BuildPlacement : MonoBehaviour
 
     private void PlaceBuild()
     {
-        currentBuildProperties.SetCoordinates(currentBuildPreview.transform.position);
-        currentBuildProperties.SetCoordinatesOfBuildInGrid(gridModel.grid);
-        currentBuildPreview = null;
-        controller.mouseLeftClick = false;
-        InstantiateBuildPreview(currentBuildPrefab);
+        if (gridController.CheckIfCaseFree(currentBuildPreview.transform.position, currentBuildProperties.GetSize()))
+        {
+            currentBuildProperties.SetCoordinates(currentBuildPreview.transform.position);
+            currentBuildProperties.SetCoordinatesOfBuildInGrid(gridModel.grid);
+            currentBuildPreview = null;
+            controller.mouseLeftClick = false;
+            InstantiateBuildPreview(currentBuildPrefab);
+        }
+    
     }
     
     private void Update()

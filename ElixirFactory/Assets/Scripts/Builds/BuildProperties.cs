@@ -30,7 +30,6 @@ public class BuildProperties : MonoBehaviour
             {
                 grid[(int)coordinates.x + x, (int)coordinates.y + y].GetComponent<Case>().isOccupied = true;
             }
-            
         }
     }
     

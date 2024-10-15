@@ -28,6 +28,12 @@ public class BuildPlacement : MonoBehaviour
         InstantiateBuildPreview(currentBuildPrefab);
     }
 
+    public GameObject GetBuildPreview()
+    {
+        return currentBuildPreview;
+    }
+    
+
     public void InstantiateBuildPreview(GameObject buildPrefab)
     {
         currentBuildPreview = Instantiate(currentBuildPrefab);

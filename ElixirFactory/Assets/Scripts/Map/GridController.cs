@@ -11,7 +11,7 @@ public class GridController : MonoBehaviour
 
 
     [Header("   Noise Options")] [Range(0, 1)]
-    public float perlinScale;
+    public float perlinScale = 0.09f;
     public float seed;
     
     
@@ -51,9 +51,6 @@ public class GridController : MonoBehaviour
         float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
         { 
-            case < 0.1f:
-                prefab.GetComponent<Case>().sprite = _model.waterSprite;
-                break;
             case < 0.7f:
                 prefab.GetComponent<Case>().sprite = _model.grassSprite;
                 break;

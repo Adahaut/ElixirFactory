@@ -11,7 +11,7 @@ public class GridController : MonoBehaviour
 
 
     [Header("   Noise Options")] [Range(0, 1)]
-    public float perlinScale = 0.09f;
+    public float perlinScale = 0.07f;
     public float seed;
     
     
@@ -41,6 +41,7 @@ public class GridController : MonoBehaviour
             for (int j = 0; j < _model.gridSize; j++)
             {
                 _model.grid[i, j] = InstantiatePrefab(new Vector2(i, j));
+                _model.grid[i, j].gameObject.name = "Case" + i + "," + j;
             }
         }
     }

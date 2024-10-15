@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class Controller : MonoBehaviour
 {
     public Vector2 mousePos;
+    public Vector2 cameraAxis;
     public bool mouseRightClick;
     public bool mouseLeftClick;
     public bool escapePressed;
@@ -45,5 +46,10 @@ public class Controller : MonoBehaviour
     public void GetEscape(InputAction.CallbackContext context)
     {
         escapePressed = context.ReadValueAsButton();
+    }
+
+    public void SetCameraAxis(InputAction.CallbackContext context)
+    {
+        cameraAxis = context.ReadValue<Vector2>();
     }
 }

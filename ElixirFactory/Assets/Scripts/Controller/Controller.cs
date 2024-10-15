@@ -8,6 +8,7 @@ public class Controller : MonoBehaviour
 {
     public Vector2 mousePos;
     public Vector2 cameraAxis;
+    public float scrollWheel;
     public bool mouseRightClick;
     public bool mouseLeftClick;
     public bool escapePressed;
@@ -51,5 +52,10 @@ public class Controller : MonoBehaviour
     public void SetCameraAxis(InputAction.CallbackContext context)
     {
         cameraAxis = context.ReadValue<Vector2>();
+    }
+
+    public void SetScrollWheelValue(InputAction.CallbackContext context)
+    {
+        scrollWheel = context.ReadValue<float>();
     }
 }

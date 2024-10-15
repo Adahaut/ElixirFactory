@@ -2519,6 +2519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1450437470}
+  gridModel: {fileID: 294541824}
 --- !u!4 &883268205
 Transform:
   m_ObjectHideFlags: 0
@@ -4573,6 +4574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildMenu: {fileID: 1992314507}
   inventory: {fileID: 1603800941}
+  allActivatedMenus: []
 --- !u!1 &1460699049
 GameObject:
   m_ObjectHideFlags: 0

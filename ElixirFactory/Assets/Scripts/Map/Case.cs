@@ -7,7 +7,7 @@ public class Case : MonoBehaviour
 {
     public Sprite sprite;
     private string name;
-    private bool isOccupied;
+    public bool isOccupied = false;
     public void ShowCase()
     {
         GetComponent<SpriteRenderer>().sprite = sprite;

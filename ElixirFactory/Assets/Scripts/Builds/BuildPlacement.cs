@@ -8,7 +8,9 @@ public class BuildPlacement : MonoBehaviour
 {
     private GameObject currentBuildPrefab;
     private GameObject currentBuildPreview;
+    private BuildProperties currentBuildProperties;
     public Controller controller;
+    public GridModel gridModel;
     private Camera camera;
 
     private void Start()
@@ -25,6 +27,7 @@ public class BuildPlacement : MonoBehaviour
     public void InstantiateBuildPreview(GameObject buildPrefab)
     {
         currentBuildPreview = Instantiate(currentBuildPrefab);
+        currentBuildProperties = currentBuildPreview.GetComponent<BuildProperties>();
     }
 
     private void SetBuildPreviewPosition()
@@ -37,13 +40,19 @@ public class BuildPlacement : MonoBehaviour
     private Vector2 ClampToNearest(Vector2 pos, float treshold)
     {
         float t = 1f / treshold;
-        Vector2 v = ((Vector2)Vector2Int.FloorToInt(pos * t)) / t;
-
-        float s = treshold * 0.5f;
-        v.x += s;
-        v.y += s;
-
+    
+        Vector2 v = ((Vector2)Vector2Int.RoundToInt(pos * t)) / t;
+    
         return v;
+    }
+
+    private void PlaceBuild()
+    {
+        currentBuildProperties.SetCoordinates(currentBuildPreview.transform.position);
+        currentBuildProperties.SetCoordinatesOfBuildInGrid(gridModel.grid);
+        currentBuildPreview = null;
+        controller.mouseLeftClick = false;
+        InstantiateBuildPreview(currentBuildPrefab);
     }
     
     private void Update()
@@ -53,10 +62,7 @@ public class BuildPlacement : MonoBehaviour
             SetBuildPreviewPosition();
             if (controller.mouseLeftClick)
             {
-                currentBuildPreview = null;
-                controller.mouseLeftClick = false;
-                InstantiateBuildPreview(currentBuildPrefab);
-                //exec code to get cases under structure
+                PlaceBuild();
             }
             if (controller.escapePressed)
             {

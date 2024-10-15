@@ -19,6 +19,11 @@ public class BuildPlacement : MonoBehaviour
     public void SetBuildPrefab(GameObject buildPrefab)
     {
         currentBuildPrefab = buildPrefab;
+        InstantiateBuildPreview(currentBuildPrefab);
+    }
+
+    public void InstantiateBuildPreview(GameObject buildPrefab)
+    {
         currentBuildPreview = Instantiate(currentBuildPrefab);
     }
 
@@ -49,7 +54,14 @@ public class BuildPlacement : MonoBehaviour
             if (controller.mouseLeftClick)
             {
                 currentBuildPreview = null;
+                controller.mouseLeftClick = false;
+                InstantiateBuildPreview(currentBuildPrefab);
                 //exec code to get cases under structure
+            }
+            if (controller.escapePressed)
+            {
+                Destroy(currentBuildPreview);
+                currentBuildPreview = null;
             }
         }
     }

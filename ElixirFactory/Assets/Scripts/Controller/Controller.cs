@@ -9,15 +9,30 @@ public class Controller : MonoBehaviour
     public Vector2 mousePos;
     public bool mouseRightClick;
     public bool mouseLeftClick;
+    public bool escapePressed;
 
     public void CheckMouseLeftClick(InputAction.CallbackContext context)
     {
-        mouseLeftClick = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            mouseLeftClick = true;
+        }
+        else
+        {
+            mouseLeftClick = false;
+        }
     }
     
     public void CheckMouseRightClick(InputAction.CallbackContext context)
     {
-        mouseRightClick = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            mouseRightClick = true;
+        }
+        else
+        {
+            mouseRightClick = false;
+        }
     }
 
     public void GetMousePos(InputAction.CallbackContext context)
@@ -25,5 +40,10 @@ public class Controller : MonoBehaviour
         mousePos = context.ReadValue<Vector2>();
         mousePos.x /= Screen.width;
         mousePos.y /= Screen.height;
+    }
+
+    public void GetEscape(InputAction.CallbackContext context)
+    {
+        escapePressed = context.ReadValueAsButton();
     }
 }

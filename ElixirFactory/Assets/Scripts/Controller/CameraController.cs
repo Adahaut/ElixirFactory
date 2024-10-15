@@ -7,24 +7,28 @@ using Random = Unity.Mathematics.Random;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("    Movement Settings")]
-    [SerializeField] private Transform topLeft;
+    [Header("    Movement Settings")] [SerializeField]
+    private Transform topLeft;
+
     [SerializeField] private Transform bottomRight;
     private float widthRatio;
-    
-    [Header("    Camera Settings")]
-    [SerializeField] Controller _controller;
+
+    [Header("    Camera Settings")] [SerializeField]
+    Controller _controller;
+
     private Camera cam;
-    private float speed = 15.0f;
-    
-    [Header("    Zoom Settings")]
-    [SerializeField] private float size;
+    private float speed = 10.0f;
+    private float camAccel = 12.5f;
+
+    [Header("    Zoom Settings")] [SerializeField]
+    private float size;
+
     [SerializeField] private float targetSize;
     [SerializeField] private float minSize;
     [SerializeField] private float maxSize;
     [SerializeField] private float zoomSpeed;
     [SerializeField] private float zoomPower;
-    
+
 
     private void Start()
     {
@@ -40,8 +44,7 @@ public class CameraController : MonoBehaviour
 
     public void MoveCamera()
     {
-        
-        var camTransform = cam.transform.position + (Vector3)_controller.cameraAxis * (speed * Time.deltaTime);;
+        var camTransform = cam.transform.position + (Vector3)_controller.cameraAxis * ((_controller.shiftPressed? camAccel : speed) * Time.deltaTime);
         if (camTransform.x - (cam.orthographicSize * widthRatio) < topLeft.position.x)
         {
             camTransform.x = topLeft.position.x + (cam.orthographicSize * widthRatio);
@@ -59,13 +62,13 @@ public class CameraController : MonoBehaviour
         {
             camTransform.y = bottomRight.position.y + cam.orthographicSize;
         }
-        
-        cam.transform.position = camTransform; 
+
+        cam.transform.position = camTransform;
     }
 
     public void ZoomCamera()
     {
-        targetSize = Mathf.Clamp(targetSize  - _controller.scrollWheel * zoomPower * Time.deltaTime, minSize, maxSize);
+        targetSize = Mathf.Clamp(targetSize - _controller.scrollWheel * zoomPower * Time.deltaTime, minSize, maxSize);
         size = Mathf.Lerp(size, targetSize, zoomSpeed * Time.deltaTime);
         cam.orthographicSize = size;
     }

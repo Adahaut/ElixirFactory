@@ -7,7 +7,7 @@ using UnityEngine;
 public class MobsBehavior : MonoBehaviour
 {
     private List<Case> path = new();
-    public float speed = 5f; // Vitesse de déplacement de l'objet
+    public float speed = 5f; 
     private Pathfinding pathfinding;
     
 
@@ -19,27 +19,25 @@ public class MobsBehavior : MonoBehaviour
         }
     }
 
-    // Appel pour commencer le déplacement
+    
     public void MoveAlongPath()
     {
         GetPath(Vector2.zero, Vector2.zero);
         StartCoroutine(FollowPath());
     }
 
-    // Coroutine pour suivre le chemin
+    
     IEnumerator FollowPath()
     {
-        // Parcours du chemin
+        
         foreach (Case targetCase in path)
         {
             Vector3 targetPosition = new Vector2(targetCase.x, targetCase.transform.position.y);
             
-            // Tant que l'objet n'est pas arrivé à la position cible
             while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
             {
-                // Déplace l'objet progressivement vers la position cible
                 transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-                yield return null;  // Attend le frame suivant
+                yield return null;  
             }
         }
     }

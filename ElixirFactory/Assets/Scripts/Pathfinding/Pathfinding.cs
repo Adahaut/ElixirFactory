@@ -36,7 +36,7 @@ public class Pathfinding : MonoBehaviour
                     currentNode = openList[i];
                 }
             }
-
+            
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
@@ -80,15 +80,15 @@ List<Case> RetracePath(Case startCase, Case endCase)
             path.Add(currentCase);
             currentCase = currentCase.parent;
         }
-        path.Add(startCase); // Ajoute la case de départ au chemin
-        path.Reverse(); // Inverse le chemin pour qu'il commence par la case de départ
+        path.Add(startCase); 
+        path.Reverse(); 
 
 
         foreach (Case node in path)
         {
             node.GetComponent<SpriteRenderer>().color = Color.black;
         }
-        return path; // Retourne la liste du chemin
+        return path; 
     }
 
     List<Case> GetNeighbors(Case node) {
@@ -107,14 +107,14 @@ List<Case> RetracePath(Case startCase, Case endCase)
         };
 
 
-        // Vérifie chaque direction
+        
         for (int i = 0; i < directions.GetLength(0); i++) {
             int neighborX = node.x + directions[i, 0];
             int neighborY = node.y + directions[i, 1];
 
-            // Vérifie que la position est bien dans les limites de la grille
+            
             if (neighborX >= 0 && neighborX < gridModel.gridSize && neighborY >= 0 && neighborY < gridModel.gridSize) {
-                neighbors.Add(gridModel.grid[neighborX, neighborY].GetComponent<Case>()); // Ajoute le nœud voisin
+                neighbors.Add(gridModel.grid[neighborX, neighborY].GetComponent<Case>());
             }
         }
 
@@ -125,7 +125,7 @@ List<Case> RetracePath(Case startCase, Case endCase)
         int distX = Mathf.Abs(nodeA.x - nodeB.x);
         int distY = Mathf.Abs(nodeA.y - nodeB.y);
     
-        // Si les deux distances sont égales, c'est un déplacement en diagonale
+        
         return Mathf.Max(distX, distY);
     }
 

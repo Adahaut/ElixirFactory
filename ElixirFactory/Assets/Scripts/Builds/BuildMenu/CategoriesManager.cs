@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class CategoriesManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject[] categories;
+
+    public void DesactivateCategories()
     {
-        
+        for (int i = 0; i < categories.Length; i++)
+        {
+            categories[i].SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

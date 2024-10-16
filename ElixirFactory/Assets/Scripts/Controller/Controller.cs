@@ -13,6 +13,19 @@ public class Controller : MonoBehaviour
     public bool mouseLeftClick;
     public bool escapePressed;
     private AllMenuController allMenuController;
+    public static Controller instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {

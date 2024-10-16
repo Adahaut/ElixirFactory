@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d36b5769c0b447b498a321e1586fbc60, type: 3}
-  m_Name: test
+  m_Name: Item1
   m_EditorClassIdentifier: 
-  itemName: test
-  itemIcon: {fileID: 21300000, guid: 976c84b365971374889b28735dd2a7e2, type: 3}
+  itemName: RecipeResult
+  itemIcon: {fileID: 21300000, guid: e7c0afbacc90a974cb35ee98bc127619, type: 3}
   maxstack: 999
-  currentStack: 5000
+  currentStack: 1

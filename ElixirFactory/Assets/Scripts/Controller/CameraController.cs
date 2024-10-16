@@ -7,31 +7,37 @@ using Random = Unity.Mathematics.Random;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("    Movement Settings")] [SerializeField]
-    private Transform topLeft;
-
-    [SerializeField] private Transform bottomRight;
+    [Header("    Movement Settings")]
+    private Vector2 topLeft;
+    private Vector2 bottomRight;
     private float widthRatio;
+    [SerializeField] private float speed;
+    [SerializeField] private float camAccel;
+    [SerializeField] private float targetSpeed;
+    [SerializeField] private float smoothSpeed;
+    [SerializeField] private float accelerationPower;
+    [SerializeField] private AnimationCurve zoomImpactOnSpeed;
 
-    [Header("    Camera Settings")] [SerializeField]
-    Controller _controller;
-
+    [Header("    Camera Settings")]
+    [SerializeField] Controller _controller;
     private Camera cam;
-    private float speed = 10.0f;
-    private float camAccel = 12.5f;
-
-    [Header("    Zoom Settings")] [SerializeField]
-    private float size;
-
+    
+    [Header("    Zoom Settings")] 
+    [SerializeField] private float size;
     [SerializeField] private float targetSize;
     [SerializeField] private float minSize;
     [SerializeField] private float maxSize;
     [SerializeField] private float zoomSpeed;
     [SerializeField] private float zoomPower;
+    
+    
+    public GridModel _gridModel;
 
 
     private void Start()
     {
+        topLeft = new Vector2(-0.5f, _gridModel.gridSize - 0.5f);
+        bottomRight = new Vector2(_gridModel.gridSize - 0.5f, -0.5f);
         widthRatio = (float)Screen.width / (float)Screen.height;
         cam = Camera.main;
     }
@@ -44,23 +50,38 @@ public class CameraController : MonoBehaviour
 
     public void MoveCamera()
     {
-        var camTransform = cam.transform.position + (Vector3)_controller.cameraAxis * ((_controller.shiftPressed? camAccel : speed) * Time.deltaTime);
-        if (camTransform.x - (cam.orthographicSize * widthRatio) < topLeft.position.x)
+        targetSpeed = _controller.shiftPressed ? camAccel : speed;
+        targetSpeed *= zoomImpactOnSpeed.Evaluate(cam.orthographicSize);
+        
+        if (_controller.shiftPressed)
         {
-            camTransform.x = topLeft.position.x + (cam.orthographicSize * widthRatio);
+            smoothSpeed = Mathf.Lerp(smoothSpeed, targetSpeed, accelerationPower * Time.deltaTime);
         }
-        else if (camTransform.x + (cam.orthographicSize * widthRatio) > bottomRight.position.x)
+        else
         {
-            camTransform.x = bottomRight.position.x - (cam.orthographicSize * widthRatio);
+            smoothSpeed = targetSpeed;
+        }
+        
+      
+        
+        var camTransform = cam.transform.position + (Vector3)_controller.cameraAxis * (smoothSpeed * Time.deltaTime);
+        
+        if (camTransform.x - (cam.orthographicSize * widthRatio) < topLeft.x)
+        {
+            camTransform.x = topLeft.x + (cam.orthographicSize * widthRatio);
+        }
+        else if (camTransform.x + (cam.orthographicSize * widthRatio) > bottomRight.x)
+        {
+            camTransform.x = bottomRight.x - (cam.orthographicSize * widthRatio);
         }
 
-        if (camTransform.y + cam.orthographicSize > topLeft.position.y)
+        if (camTransform.y + cam.orthographicSize > topLeft.y)
         {
-            camTransform.y = topLeft.position.y - cam.orthographicSize;
+            camTransform.y = topLeft.y - cam.orthographicSize;
         }
-        else if (camTransform.y - cam.orthographicSize < bottomRight.position.y)
+        else if (camTransform.y - cam.orthographicSize < bottomRight.y)
         {
-            camTransform.y = bottomRight.position.y + cam.orthographicSize;
+            camTransform.y = bottomRight.y + cam.orthographicSize;
         }
 
         cam.transform.position = camTransform;

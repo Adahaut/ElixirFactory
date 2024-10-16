@@ -6,15 +6,16 @@ using UnityEngine.UI;
 
 public class CategoryButton : MonoBehaviour
 {
-    private GameObject categoryToActivate;
-
-    private void Start()
-    {
-        categoryToActivate = gameObject;
-    }
+    private CategoriesManager categoriesManager;
 
     public void Activate()
     {
-        categoryToActivate.SetActive(true);
+        if (categoriesManager == null)
+        {
+            categoriesManager = GetComponentInParent<CategoriesManager>();
+        }
+        categoriesManager.DesactivateCategories();
+        gameObject.SetActive(true);
     }
+    
 }

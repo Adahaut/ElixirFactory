@@ -49,6 +49,8 @@ public class GridController : MonoBehaviour
     public GameObject InstantiatePrefab(Vector2 position)
     {
         GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map); 
+        prefab.GetComponent<Case>().x = (int)position.x;
+        prefab.GetComponent<Case>().y = (int)position.y;
         float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
         { 
@@ -62,5 +64,21 @@ public class GridController : MonoBehaviour
                 break;
         }
         return prefab;
+    }
+
+    public bool CheckIfCaseFree(Vector2 coords, Vector2 size)
+    {
+        for (int y = 0; y < size.y; y++)
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                if (_model.grid[(int)coords.x + x, (int)coords.y + y].GetComponent<Case>().isOccupied)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

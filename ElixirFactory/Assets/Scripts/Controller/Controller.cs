@@ -13,6 +13,12 @@ public class Controller : MonoBehaviour
     public bool mouseLeftClick;
     public bool escapePressed;
     public bool shiftPressed;
+    private AllMenuController allMenuController;
+
+    private void Start()
+    {
+        allMenuController = GetComponent<AllMenuController>();
+    }
 
     public void CheckMouseLeftClick(InputAction.CallbackContext context)
     {
@@ -48,6 +54,19 @@ public class Controller : MonoBehaviour
     public void GetEscape(InputAction.CallbackContext context)
     {
         escapePressed = context.ReadValueAsButton();
+        allMenuController.DesactiveAllActivatedMenus();
+    }
+
+    public void GetBuildMenuIsPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            allMenuController.ActiveMenu(allMenuController.buildMenu);
+    }
+    
+    public void GetInventoryIsPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            allMenuController.ActiveMenu(allMenuController.inventory);
     }
 
     public void SetCameraAxis(InputAction.CallbackContext context)

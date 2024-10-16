@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8.5
-  camAccel: 14
+  camAccel: 18
   targetSpeed: 0
   smoothSpeed: 0
   accelerationPower: 2

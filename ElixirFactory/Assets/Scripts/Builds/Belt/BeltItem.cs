@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BeltItem : MonoBehaviour
@@ -7,6 +8,8 @@ public class BeltItem : MonoBehaviour
     public float moveSpeed = 2f; // Vitesse de déplacement sur le convoyeur
     private Vector3 targetPosition; // Position cible sur le convoyeur
     private bool isMoving = false;
+
+    public Belt belt;
 
     // Appelé par le convoyeur pour déplacer l'item
     public void MoveToPosition(Vector3 newPosition)
@@ -26,6 +29,7 @@ public class BeltItem : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
                 isMoving = false;
+                transform.position = targetPosition;
             }
         }
     }
@@ -40,6 +44,8 @@ public class BeltItem : MonoBehaviour
 
             // Le convoyeur demande à l'item de se déplacer à sa position
             MoveToPosition(belt.transform.position);
+            Debug.Log("Item " + gameObject.name + " placé sur le convoyeur " + belt.name);
         }
     }
+
 }

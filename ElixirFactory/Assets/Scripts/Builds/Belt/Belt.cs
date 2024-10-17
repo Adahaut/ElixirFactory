@@ -1,62 +1,121 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Belt : MonoBehaviour
 {
     public BeltItem carriedItem; // Item que le convoyeur transporte
-    private Belt[] neighbors = new Belt[4]; // Pour stocker les voisins
+    public Belt[] neighbors = new Belt[4]; // 0: Haut, 1: Bas, 2: Gauche, 3: Droite
+    public GridModel gridModel;
+
+    public BeltDirection direction;
+    public List<BeltItem> waitingItemList = new List<BeltItem>();
 
     void Start()
     {
-        // Si un item est déjà sur le convoyeur au début du jeu, on lui assigne sa position initiale
         if (carriedItem != null)
         {
-            carriedItem.MoveToPosition(transform.position);
+            waitingItemList.Add(carriedItem, NextBelt());
+            //MoveItem(carriedItem)
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    Belt NextBelt()
     {
-        Belt neighbor = other.GetComponent<Belt>();
-        if (neighbor != null)
+        switch (direction)
         {
-            // Ajouter le voisin selon sa position relative
-            if (other.transform.position.y > transform.position.y) neighbors[0] = neighbor; // Haut
-            else if (other.transform.position.y < transform.position.y) neighbors[1] = neighbor; // Bas
-            else if (other.transform.position.x < transform.position.x) neighbors[2] = neighbor; // Gauche
-            else if (other.transform.position.x > transform.position.x) neighbors[3] = neighbor; // Droite
-
-            TransferItem(neighbor);
+            case BeltDirection.TOP:
+                if (gridModel.grid[transform.position.x, transform.position.y + 1])
+                break;
+            default:
+                return null;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void MoveItem(BeltItem item, Belt nextBelt)
     {
-        Belt neighbor = other.GetComponent<Belt>();
-        if (neighbor != null)
-        {
-            // Retirer le voisin de la liste
-            for (int i = 0; i < neighbors.Length; i++)
-            {
-                if (neighbors[i] == neighbor)
-                {
-                    neighbors[i] = null;
-                    break;
-                }
-            }
-        }
+        itemsToReceive.Remove(item);
+        //Ajouter l'item à la liste du prochain belt
     }
+
+    public void UpdateItemList()
+    {
+
+    }
+
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    Belt neighbor = other.GetComponent<Belt>();
+    //    if (neighbor != null)
+    //    {
+    //        // Calcule la position relative du voisin par rapport à ce convoyeur
+    //        Vector3 directionToNeighbor = neighbor.transform.position - transform.position;
+
+    //        if (Mathf.Abs(directionToNeighbor.y) > Mathf.Abs(directionToNeighbor.x))
+    //        {
+    //            if (directionToNeighbor.y > 0)
+    //            {
+    //                neighbors[0] = neighbor; // Haut
+    //                Debug.Log("Voisin ajouté en haut: " + neighbor.name);
+    //            }
+    //            else
+    //            {
+    //                neighbors[1] = neighbor; // Bas
+    //                Debug.Log("Voisin ajouté en bas: " + neighbor.name);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (directionToNeighbor.x > 0)
+    //            {
+    //                neighbors[3] = neighbor; // Droite
+    //                Debug.Log("Voisin ajouté à droite: " + neighbor.name);
+    //            }
+    //            else
+    //            {
+    //                neighbors[2] = neighbor; // Gauche
+    //                Debug.Log("Voisin ajouté à gauche: " + neighbor.name);
+    //            }
+    //        }
+    //    }
+    //}
+
+
+    //private void OnTriggerExit2D(Collider2D other)
+    //{
+    //    Belt neighbor = other.GetComponent<Belt>();
+    //    BeltItem item = other.GetComponent<BeltItem>();
+
+    //    // Si c'est un voisin qui quitte le trigger
+    //    if (neighbor != null)
+    //    {
+    //        for (int i = 0; i < neighbors.Length; i++)
+    //        {
+    //            if (neighbors[i] == neighbor)
+    //            {
+    //                neighbors[i] = null;
+    //                Debug.Log("Voisin retiré: " + neighbor.name);
+    //                break;
+    //            }
+    //        }
+    //    }
+
+    //    // Si c'est l'item qui quitte le trigger, le retirer du convoyeur
+    //    if (item != null && item == carriedItem)
+    //    {
+    //        carriedItem = null;
+    //        Debug.Log("Item " + item.name + " a quitté le convoyeur " + gameObject.name);
+    //    }
+    //}
 
     void TransferItem(Belt neighbor)
     {
-        // Vérifier si le voisin a un item et que ce conveyor en transporte un
         if (carriedItem != null && neighbor.carriedItem == null)
         {
-            // Transférer l'item au voisin
             neighbor.carriedItem = carriedItem;
-            carriedItem.MoveToPosition(neighbor.transform.position); // Déplacer l'item vers le nouveau conveyor
-            carriedItem = null; // Ce convoyeur ne transporte plus d'item
+            carriedItem.MoveToPosition(neighbor.transform.position);
+            carriedItem = null;
         }
     }
 
@@ -71,4 +130,12 @@ public class Belt : MonoBehaviour
             }
         }
     }
+}
+
+public enum BeltDirection
+{
+    TOP,
+    DOWN,
+    LEFT,
+    RIGHT
 }

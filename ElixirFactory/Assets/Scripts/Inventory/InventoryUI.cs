@@ -28,13 +28,13 @@ public class InventoryUI : MonoBehaviour
     {
         for (int i = 0; i < inventory.items.Count; i++)
         {
-            if (inventory.items[i].itemName != "")
-            {
+
                 inventorySlots[i].GetComponentInChildren<TextMeshProUGUI>().text =
                     inventory.items[i].currentStack.ToString();
                 inventorySlots[i].GetComponent<Image>().sprite =
                     inventory.items[i].itemIcon;
-            }
+                inventorySlots[i].GetComponent<DragAndDropSlot>().itemInSolt = inventory.items[i];
+            
         }
     }
 }

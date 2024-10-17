@@ -6,9 +6,10 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CrusherUI : MonoBehaviour
+public class CrusherUI : MonoBehaviour, IDropHandler
 {
     public GameObject currentCrusher;
     public CrusherComponent currentCrusherComponent;
@@ -28,6 +29,11 @@ public class CrusherUI : MonoBehaviour
         outSlotText = outSlot.GetComponentInChildren<TextMeshProUGUI>();
     }
 
+    private void OnEnable()
+    {
+        UIReferencer.Instance.inventory.SetActive(true);
+    }
+
     public void SetRecipe(Recipe recipe)
     {
         currentCrusherComponent.SetRecipe(recipe);
@@ -35,8 +41,8 @@ public class CrusherUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        inSlotRenderer.sprite = currentCrusherComponent.GetToBuildItem().itemIcon;
-        inSlotText.text = currentCrusherComponent.GetToBuildItem().currentStack.ToString();
+        inSlotRenderer.sprite = currentCrusherComponent.GetToBuildItem()[0].itemIcon;
+        inSlotText.text = currentCrusherComponent.GetToBuildItem()[0].currentStack.ToString();
         outSlotRenderer.sprite = currentCrusherComponent.GetResult().itemIcon;
         outSlotText.text = currentCrusherComponent.GetResult().currentStack.ToString();
     }
@@ -65,6 +71,16 @@ public class CrusherUI : MonoBehaviour
         {
             RecipePanel.SetActive(true);
             buildPanel.SetActive(false);
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        DragAndDropSlot button = eventData.pointerDrag.GetComponent<DragAndDropSlot>();
+        if (button != null)
+        {
+            Debug.Log("Item DROPED");
+            Inventory.instance.TransferItemFromInvToOther(currentCrusherComponent.GetToBuildItem(), button.itemInSolt);
         }
     }
 }

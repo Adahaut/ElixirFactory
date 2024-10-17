@@ -8,6 +8,7 @@ public class GridController : MonoBehaviour
 {
     private GridModel _model;
     private GridView _view;
+    private LakesGenerator _lakesGenerator;
 
 
     [Header("   Noise Options")] [Range(0, 1)]
@@ -18,7 +19,7 @@ public class GridController : MonoBehaviour
     
     private void Start()
     {
-
+        _lakesGenerator = GetComponent<LakesGenerator>();
         if (seed == 0)
         {
             seed = Random.Range(0, 10000);
@@ -54,6 +55,10 @@ public class GridController : MonoBehaviour
         float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
         { 
+            case < 0.2f:
+                prefab.GetComponent<Case>().sprite = _model.waterSprite;
+                _lakesGenerator.AddLakeCase(prefab.GetComponent<Case>());
+                break;
             case < 0.7f:
                 prefab.GetComponent<Case>().sprite = _model.grassSprite;
                 break;

@@ -49,6 +49,8 @@ public class GridController : MonoBehaviour
     public GameObject InstantiatePrefab(Vector2 position)
     {
         GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map); 
+        prefab.GetComponent<Case>().x = (int)position.x;
+        prefab.GetComponent<Case>().y = (int)position.y;
         float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
         { 

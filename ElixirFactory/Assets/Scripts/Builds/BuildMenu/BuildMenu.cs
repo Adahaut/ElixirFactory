@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,5 +10,13 @@ public class BuildMenu : MonoBehaviour
     {
         buildPlacer.SetBuildPrefab(buildPrefab);
         gameObject.SetActive(false);
+    }
+
+    public void OnEnable()
+    {
+        if (buildPlacer.GetBuildPreview() != null)
+        {
+            Destroy(buildPlacer.GetBuildPreview());
+        }
     }
 }

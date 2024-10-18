@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour
     public bool mouseRightClick;
     public bool mouseLeftClick;
     public bool escapePressed;
+    public bool shiftPressed;
     private AllMenuController allMenuController;
 
     private void Start()
@@ -76,5 +77,15 @@ public class Controller : MonoBehaviour
     public void SetScrollWheelValue(InputAction.CallbackContext context)
     {
         scrollWheel = context.ReadValue<float>();
+    }
+
+    public void CheckShiftPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            shiftPressed = true;
+        }
+        else 
+            shiftPressed = false;
     }
 }

@@ -14,17 +14,15 @@ public class LakesGenerator : MonoBehaviour
         _gridModel = GetComponent<GridModel>();
     }
 
-    public void
-        AddLakeCase(Case newWaterCase) // Add a water case to a list of lake if it is adjacent to another water case.
+    public void AddLakeCase(Case newWaterCase) // Add a water case to a list of lake if it is adjacent to another water case.
     {
-        HashSet<List<Case>>
-            contactLakes = new HashSet<List<Case>>(); // In the case where a Lake case is in contact with another Lake.
+        HashSet<List<Case>> contactLakes = new HashSet<List<Case>>(); // In the case where a Lake case is in contact with another Lake.
         for (int i = 0; i < lakes.Count; i++)
         {
             List<Case> lake = lakes[i];
             foreach (Case waterCase in lake)
             {
-                if (GetAdjacentCase(_gridModel, waterCase).Contains(newWaterCase.gameObject))
+                if (GetAdjacentCase(_gridModel, waterCase, false).Contains(newWaterCase.gameObject))
                 {
                     contactLakes.Add(lake);
                     break;
@@ -41,53 +39,62 @@ public class LakesGenerator : MonoBehaviour
             {
                 lakes.Remove(contactLake);
             }
-
             lakes.Add(newLake);
-
             return;
         }
-
         lakes.Add(new List<Case>() { newWaterCase });
     }
 
 
-    public List<GameObject>
-        GetAdjacentCase(GridModel gridModel, Case _case) // Get the Left, Right, Up and Down Case of a case
+    public List<GameObject> GetAdjacentCase(GridModel gridModel, Case _case, bool includeDiagonals = false) // Get the Left, Right, Up and Down Case of a case
     {
         List<GameObject> adjacentCase = new();
 
         int i = _case.x;
         int j = _case.y;
-        if (gridModel.grid[i, j] == _case.gameObject)
+        if (_gridModel.grid[i, j] == _case.gameObject)
         {
-            if (i > 0)
+            List<Vector2Int> directions = new()
             {
-                adjacentCase.Add(gridModel.grid[i - 1, j]);
-            }
-
-            if (i < gridModel.gridSize - 1)
+                new Vector2Int(-1, 0), // Gauche
+                new Vector2Int(1, 0), // Right
+                new Vector2Int(0, -1), // Down
+                new Vector2Int(0, 1) // Up
+            };
+            if (includeDiagonals)
             {
-                adjacentCase.Add(gridModel.grid[i, j]);
+                directions.AddRange(new List<Vector2Int>
+                {
+                    new Vector2Int(-1, -1), // Left-Down
+                    new Vector2Int(-1,  1), // Left-Up
+                    new Vector2Int( 1, -1), // Right-Down
+                    new Vector2Int( 1,  1)  // Right-Up
+                });
             }
-
-            if (j > 0)
+            foreach (Vector2Int dir in directions)
             {
-                adjacentCase.Add(gridModel.grid[i, j - 1]);
-            }
+                int newI = i + dir.x;
+                int newJ = j + dir.y;
 
-            if (j < gridModel.gridSize - 1)
-            {
-                adjacentCase.Add(gridModel.grid[i, j]);
+                if (newI >= 0 && newI < gridModel.gridSize && newJ >= 0 && newJ < gridModel.gridSize)
+                {
+                    adjacentCase.Add(gridModel.grid[newI, newJ]);
+                }
             }
-
-            return adjacentCase;
         }
-
         return adjacentCase;
     }
 
-
-    public void DeleteWrongLakes() //Delete lakes that aren't 3x3 lakes.
+    public void DeleteWrongLakes(Case waterCase, List<Case> caseInLake) //Delete lakes that aren't 3x3 lakes.
     {
+        foreach (Case waterCaseInLake in caseInLake)
+        {
+            if (GetAdjacentCase(_gridModel, waterCase, true).Contains(waterCase.gameObject))
+            {
+                
+            }
+        }
+        
     }
+    
 }

@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: 150
   casePrefab: {fileID: 7121799155077190356, guid: 071efe45ba7ee024ba5c7581f6299a46, type: 3}
-  grassSprite: {fileID: 21300000, guid: e7c0afbacc90a974cb35ee98bc127619, type: 3}
+  grassSprite: {fileID: 21300000, guid: a0b58213ccb4bc3478032629dfeb9dbf, type: 3}
   rockyGroundSprite: {fileID: 21300000, guid: 0e2757a69b83fbc429a507c3a4caebfc, type: 3}
   waterSprite: {fileID: 21300000, guid: 58a38febb7b7f3a42bcc57777703d43c, type: 3}
   map: {fileID: 885207044}

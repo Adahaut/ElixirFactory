@@ -27,12 +27,14 @@ public class AllMenuController : MonoBehaviour
 
     public void DesactiveAllActivatedMenus()
     {
-        foreach (GameObject menu in allActivatedMenus)
+        if (allActivatedMenus.Count > 0)
         {
-            menu.SetActive(false);
-            allActivatedMenus.Remove(menu);
+            foreach (GameObject menu in allActivatedMenus)
+            {
+                menu.SetActive(false);
+                allActivatedMenus.Remove(menu);
+            }
         }
-
     }
 
 }

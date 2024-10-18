@@ -6,13 +6,25 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public List<Item> items = new List<Item>();
-    public int rowSize = 8;
+    public int rowSize = 6;
     private int currentInventoryCount;
+    public static Inventory instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
         AddNewRowInInventory();
-
     }
 
     public void AddNewRowInInventory()
@@ -21,8 +33,9 @@ public class Inventory : MonoBehaviour
         {
             items.Add(new Item());
         }
-        GetComponent<InventoryUI>().InitInventoryUI();
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().InitInventoryUI();
     }
+    
     public void AddItem(Item newItem)
     { 
         AddStackOfItem(newItem.currentStack, newItem);
@@ -87,9 +100,45 @@ public class Inventory : MonoBehaviour
             items[newStackSlot].itemIcon = newItem.itemIcon;
             items[newStackSlot].itemName = newItem.itemName;
             CheckLastInventoryItem();
-            GetComponent<InventoryUI>().UpdateInventoryUI();
+            UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
         }
     }
 
+    public void TransferItemFromInvToOther(List<Item> others, Item itemToTransfer)
+    {
+        for (int i = 0; i < others.Count; i++)
+        {
+            if (others[i].itemName == itemToTransfer.itemName)
+            {
+                int diff = others[i].maxstack - others[i].currentStack;
+                if (itemToTransfer.currentStack > diff)
+                {
+                    others[i].currentStack += diff;
+                    itemToTransfer.currentStack -= diff;
+                }
+                else
+                {
+                    others[i].currentStack += itemToTransfer.currentStack;
+                    resetItem(itemToTransfer);
+                }
+            }
+        }
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
+    }
+    
+    public void TransferItemFromOtherToInventory(Item other)
+    {
+        AddStackOfItem(other.currentStack, other);
+        other.currentStack = 0;
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
+    }
+
+    private void resetItem(Item itemToReset)
+    {
+        itemToReset.itemIcon = null;
+        itemToReset.currentStack = 0;
+        itemToReset.maxstack = 0;
+        itemToReset.itemName = "";
+    }
 
 }

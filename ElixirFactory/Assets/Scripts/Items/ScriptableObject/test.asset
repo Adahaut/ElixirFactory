@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: test
   itemIcon: {fileID: 21300000, guid: 976c84b365971374889b28735dd2a7e2, type: 3}
   maxstack: 999
-  currentStack: 5000
+  currentStack: 10

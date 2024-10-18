@@ -10,7 +10,7 @@ public class CrusherComponent : MonoBehaviour, BuildInterface
     private Recipe recipe;
     private List<Item> toBuildItem;
     private Item result;
-
+    
     private void Start()
     {
         toBuildItem = new (1);
@@ -52,10 +52,27 @@ public class CrusherComponent : MonoBehaviour, BuildInterface
         if (toBuildItem[0].currentStack >= recipe.toBuildItems[0].currentStack)
         {
             toBuildItem[0].currentStack -= recipe.toBuildItems[0].currentStack;
-            result.currentStack += recipe.result.currentStack;
+            StartCoroutine(ConstructItemCoroutine());
         }
     }
-
+    
+    private IEnumerator ConstructItemCoroutine()
+    {
+        float timer = 0f;
+        while (timer / recipe.buildTime < 1)
+        {
+            timer += Time.deltaTime;
+            UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = timer / recipe.buildTime;
+            yield return new WaitForEndOfFrame();
+        }
+            result.currentStack += recipe.result.currentStack;
+            UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = 0;
+            UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().outSlot.GetComponent<DragAndDropSlot>()
+                .itemInSolt = result;
+            ConstructItem();
+            yield return null;
+    }
+    
     private void SetItem(Item newItem, Item itemToSet)
     {
         itemToSet.itemIcon = newItem.itemIcon;
@@ -63,5 +80,4 @@ public class CrusherComponent : MonoBehaviour, BuildInterface
         itemToSet.currentStack = 0;
         itemToSet.maxstack = newItem.maxstack;
     }
-    
 }

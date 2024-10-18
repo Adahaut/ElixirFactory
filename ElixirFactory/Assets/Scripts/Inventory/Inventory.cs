@@ -25,7 +25,6 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         AddNewRowInInventory();
-
     }
 
     public void AddNewRowInInventory()
@@ -34,7 +33,7 @@ public class Inventory : MonoBehaviour
         {
             items.Add(new Item());
         }
-        GetComponent<InventoryUI>().InitInventoryUI();
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().InitInventoryUI();
     }
     
     public void AddItem(Item newItem)
@@ -101,7 +100,7 @@ public class Inventory : MonoBehaviour
             items[newStackSlot].itemIcon = newItem.itemIcon;
             items[newStackSlot].itemName = newItem.itemName;
             CheckLastInventoryItem();
-            GetComponent<InventoryUI>().UpdateInventoryUI();
+            UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
         }
     }
 
@@ -124,7 +123,14 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        GetComponent<InventoryUI>().UpdateInventoryUI();
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
+    }
+    
+    public void TransferItemFromOtherToInventory(Item other)
+    {
+        AddStackOfItem(other.currentStack, other);
+        other.currentStack = 0;
+        UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();
     }
 
     private void resetItem(Item itemToReset)

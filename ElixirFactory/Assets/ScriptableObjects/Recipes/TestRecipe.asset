@@ -15,3 +15,4 @@ MonoBehaviour:
   toBuildItems:
   - {fileID: 11400000, guid: 98b622c89c61f524591c2669fa9e8051, type: 2}
   result: {fileID: 11400000, guid: 2529edc0a36032543aba58006904e12d, type: 2}
+  buildTime: 2

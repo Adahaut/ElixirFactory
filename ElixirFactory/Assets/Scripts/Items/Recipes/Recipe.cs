@@ -7,4 +7,5 @@ public class Recipe : ScriptableObject
 {
     public List<Item> toBuildItems;
     public Item result;
+    public float buildTime;
 }

@@ -21,6 +21,7 @@ public class CrusherUI : MonoBehaviour, IDropHandler
     private Image outSlotRenderer;
     private TextMeshProUGUI inSlotText;
     private TextMeshProUGUI outSlotText;
+    public Slider sliderConstructTime;
     private void Start()
     {
         inSlotRenderer = inSlot.GetComponent<Image>();
@@ -81,6 +82,7 @@ public class CrusherUI : MonoBehaviour, IDropHandler
         {
             Debug.Log("Item DROPED");
             Inventory.instance.TransferItemFromInvToOther(currentCrusherComponent.GetToBuildItem(), button.itemInSolt);
+            currentCrusherComponent.ConstructItem();
         }
     }
 }

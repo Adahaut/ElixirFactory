@@ -10,9 +10,9 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     public Vector2 size;
     private GameObject UI;
     private bool isRecipeSet = false;
-    private Recipe recipe;
-    private List<Item> toBuildItem;
-    private Item result;
+    protected Recipe recipe;
+    protected List<Item> toBuildItem;
+    protected Item result;
 
     private void Start()
     {
@@ -65,12 +65,13 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     {
         recipe = newRecipe;
         SetItem(newRecipe.result, result);
-        SetItem(newRecipe.toBuildItems[0], toBuildItem[0]);
+        SetListOfItems(newRecipe.toBuildItems, toBuildItem);
         isRecipeSet = true;
     }
     
     protected void SetItem(Item OldItem, Item itemToSet)
     {
+        
         itemToSet.itemIcon = OldItem.itemIcon;
         itemToSet.itemName = OldItem.itemName;
         itemToSet.currentStack = 0;
@@ -79,8 +80,10 @@ public class BuildProperties : MonoBehaviour, BuildInterface
 
     protected void SetListOfItems(List<Item> OldItemList, List<Item> ItemToSet)
     {
-        for (int i = 0; i < ItemToSet.Count; i++)
+        ItemToSet.Clear();
+        for (int i = 0; i < OldItemList.Count; i++)
         {
+            ItemToSet.Add(new Item());
             ItemToSet[i].itemIcon = OldItemList[i].itemIcon;
             ItemToSet[i].itemName = OldItemList[i].itemName;
             ItemToSet[i].currentStack = 0;
@@ -90,27 +93,23 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     
     public void ConstructItem()
     {
-        if (toBuildItem[0].currentStack >= recipe.toBuildItems[0].currentStack)
+        for (int i = 0; i < toBuildItem.Count; i++)
         {
-            toBuildItem[0].currentStack -= recipe.toBuildItems[0].currentStack;
-            StartCoroutine(ConstructItemCoroutine());
+            if (toBuildItem[i].currentStack >= recipe.toBuildItems[i].currentStack)
+            {
+                toBuildItem[i].currentStack -= recipe.toBuildItems[i].currentStack;
+            }
+            else
+            {
+                return;
+            }
         }
+
+        StartCoroutine(ConstructItemCoroutine());
     }
-    
-    private IEnumerator ConstructItemCoroutine()
+
+    virtual protected IEnumerator ConstructItemCoroutine()
     {
-        float timer = 0f;
-        while (timer / recipe.buildTime < 1)
-        {
-            timer += Time.deltaTime;
-            UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = timer / recipe.buildTime;
-            yield return new WaitForEndOfFrame();
-        }
-        result.currentStack += recipe.result.currentStack;
-        UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = 0;
-        UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().outSlot.GetComponent<DragAndDropSlot>()
-            .itemInSolt = result;
-        ConstructItem();
-        yield return null;
+        return null;
     }
 }

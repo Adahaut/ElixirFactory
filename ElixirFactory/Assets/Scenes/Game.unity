@@ -1981,8 +1981,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16825e1b33e7c74ea56989e8f81fec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLeft: {fileID: 1835197235}
-  bottomRight: {fileID: 2034795394}
+  speed: 0
+  camAccel: 0
+  targetSpeed: 0
+  smoothSpeed: 0
+  accelerationPower: 0
+  zoomImpactOnSpeed:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _controller: {fileID: 1450437470}
   size: 0
   targetSize: 0
@@ -1990,6 +1999,7 @@ MonoBehaviour:
   maxSize: 22
   zoomSpeed: 5
   zoomPower: 10
+  _gridModel: {fileID: 294541824}
 --- !u!1 &634866783
 GameObject:
   m_ObjectHideFlags: 0
@@ -6025,6 +6035,7 @@ MonoBehaviour:
   mouseRightClick: 0
   mouseLeftClick: 0
   escapePressed: 0
+  shiftPressed: 0
 --- !u!114 &1450437471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6878,7 +6889,7 @@ MonoBehaviour:
         m_MethodName: SelectBuildPrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2732222503744193093, guid: 5dd12e634b2b5ec4ca21af0a9a7a1b65, type: 3}
+          m_ObjectArgument: {fileID: 3311055515304101848, guid: dd1c52a4235ebf9479f1440610508ad2, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -6905,8 +6916,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: eb6d254351ad50e4a963c4a454a244e3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

@@ -811,8 +811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: 150
   casePrefab: {fileID: 7121799155077190356, guid: 071efe45ba7ee024ba5c7581f6299a46, type: 3}
-  grassSprite: {fileID: 21300000, guid: e7c0afbacc90a974cb35ee98bc127619, type: 3}
-  rockyGroundSprite: {fileID: 21300000, guid: 0e2757a69b83fbc429a507c3a4caebfc, type: 3}
+  grassSprite: {fileID: 21300000, guid: cc0d6798769088d44b49d50811ab8f27, type: 3}
+  rockyGroundSprite: {fileID: 21300000, guid: cc0d6798769088d44b49d50811ab8f27, type: 3}
   waterSprite: {fileID: 21300000, guid: 58a38febb7b7f3a42bcc57777703d43c, type: 3}
   map: {fileID: 1523191224}
 --- !u!114 &294541825
@@ -1981,8 +1981,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16825e1b33e7c74ea56989e8f81fec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLeft: {fileID: 1835197235}
-  bottomRight: {fileID: 2034795394}
+  speed: 0
+  camAccel: 0
+  targetSpeed: 0
+  smoothSpeed: 0
+  accelerationPower: 0
+  zoomImpactOnSpeed:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _controller: {fileID: 1450437470}
   size: 0
   targetSize: 0
@@ -1990,6 +1999,7 @@ MonoBehaviour:
   maxSize: 22
   zoomSpeed: 5
   zoomPower: 10
+  _gridModel: {fileID: 294541824}
 --- !u!1 &634866783
 GameObject:
   m_ObjectHideFlags: 0
@@ -6025,6 +6035,7 @@ MonoBehaviour:
   mouseRightClick: 0
   mouseLeftClick: 0
   escapePressed: 0
+  shiftPressed: 0
 --- !u!114 &1450437471
 MonoBehaviour:
   m_ObjectHideFlags: 0

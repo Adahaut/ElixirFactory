@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,25 @@ public class Belt : BuildProperties
 
     public BeltItem currentItemOnBelt;
     public BeltDirection direction;
-    public List<BeltItem> waitingItemList = new List<BeltItem>();
+    public BeltItemReference waitingItem;
+
+    [Serializable]
+    public struct BeltItemReference
+    {
+        public BeltItem item;
+        public Belt belt;
+
+        public BeltItemReference(BeltItem item, Belt belt)
+        {
+            this.item = item;
+            this.belt = belt;
+        }
+    }
+
 
     private void Start()
     {
+
         StartCoroutine(StartFunction());
     }
 
@@ -32,7 +48,7 @@ public class Belt : BuildProperties
     }
 
     //Add current item to the next belt list
-    Belt NextBelt()
+    public Belt NextBelt()
     {
         int x = 0;
         int y = 0;
@@ -57,22 +73,27 @@ public class Belt : BuildProperties
 
     private void Update()
     {
-        if(currentItemOnBelt != null && !currentItemOnBelt.isMoving && NextBelt() != null && NextBelt().currentItemOnBelt == null)
+        if (currentItemOnBelt != null && !currentItemOnBelt.isMoving && NextBelt() != null && NextBelt().waitingItem.item == null)
         {
-            NextBelt().waitingItemList.Add(currentItemOnBelt);
-            currentItemOnBelt = null;
+            NextBelt().waitingItem = new(currentItemOnBelt, this);
         }
 
         CheckList();
     }
 
+    public void ItemLeftBelt()
+    {
+        currentItemOnBelt = null;
+    }
+
     public void CheckList()
     {
-        if(currentItemOnBelt != null || waitingItemList.Count == 0) return;
+        if(currentItemOnBelt != null || waitingItem.item == null) return;
 
-        currentItemOnBelt = waitingItemList[0];
-        waitingItemList[0].SetDestination(this.transform.position);
-        waitingItemList.RemoveAt(0);
+        currentItemOnBelt = waitingItem.item;
+        currentItemOnBelt.SetDestination(this.transform.position);
+        waitingItem.belt.ItemLeftBelt();
+        waitingItem.item = null;
     }
 
 }

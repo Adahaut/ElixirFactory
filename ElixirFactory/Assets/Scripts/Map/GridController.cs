@@ -14,9 +14,8 @@ public class GridController : MonoBehaviour
     [Header("   Noise Options")] [Range(0, 1)]
     public float perlinScale = 0.07f;
     public float seed;
-    
-    
-    
+
+
     private void Start()
     {
         _lakesGenerator = GetComponent<LakesGenerator>();
@@ -24,17 +23,16 @@ public class GridController : MonoBehaviour
         {
             seed = Random.Range(0, 10000);
         }
-        Debug.Log("Seed: " + seed);
-        
-         _model = gameObject.GetComponent<GridModel>();
+        //Debug.Log("Seed: " + seed);
+
+        _model = gameObject.GetComponent<GridModel>();
         _model.grid = new GameObject[_model.gridSize, _model.gridSize];
         InitializeGrid();
-        
+
         _view = GetComponent<GridView>();
         _view.CreateGrid(_model);
-
     }
-    
+
     public void InitializeGrid()
     {
         for (int i = 0; i < _model.gridSize; i++)
@@ -45,24 +43,38 @@ public class GridController : MonoBehaviour
                 _model.grid[i, j].gameObject.name = "Case" + i + "," + j;
             }
         }
+
+        for (int i = 0; i < _model.gridSize; i++)
+        {
+            for (int j = 0; j < _model.gridSize; j++)
+            {
+                if (_model.grid[i, j].GetComponent<Case>().sprite == _model.waterSprite)
+                {
+                    _lakesGenerator.AddLakeCase(_model.grid[i, j].GetComponent<Case>());
+                }
+            }
+        }
+        _lakesGenerator.DeleteWrongLakes();
     }
 
     public GameObject InstantiatePrefab(Vector2 position)
     {
-        GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map); 
+        GameObject prefab = Instantiate(_model.casePrefab, position, Quaternion.identity, _model.map);
         prefab.GetComponent<Case>().x = (int)position.x;
         prefab.GetComponent<Case>().y = (int)position.y;
-        float noiseValue = Mathf.PerlinNoise((position.x + seed)* perlinScale, (position.y + seed) * perlinScale);
+        float noiseValue = Mathf.PerlinNoise((position.x + seed) * perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
-        { 
-            case < 0.2f:
+        {
+            case < 0.17f:
                 prefab.GetComponent<Case>().sprite = _model.waterSprite;
-                _lakesGenerator.AddLakeCase(prefab.GetComponent<Case>());
                 break;
-            case < 0.7f:
+            case < 0.75f:
                 prefab.GetComponent<Case>().sprite = _model.grassSprite;
                 break;
-            case >= 0.7f:
+            case < 0.8f:
+                prefab.GetComponent<Case>().sprite = _model.rockLimitsSprite;
+                break;
+            case >= 0.8f:
                 prefab.GetComponent<Case>().sprite = _model.rockyGroundSprite;
                 break;
             default:
@@ -83,7 +95,6 @@ public class GridController : MonoBehaviour
                 }
             }
         }
-
         return true;
     }
 }

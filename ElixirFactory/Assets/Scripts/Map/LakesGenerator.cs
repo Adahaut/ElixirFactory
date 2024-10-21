@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -33,7 +34,11 @@ public class LakesGenerator : MonoBehaviour
         if (contactLakes.Count > 0) // If is in contact, then recreate the lake with all the adjacents water cases.
         {
             List<Case> newLake = new();
-            newLake.AddRange(contactLakes);
+            foreach (List<Case> tmpLake in contactLakes)
+            {
+                newLake.AddRange(tmpLake);
+            }
+
             newLake.Add(newWaterCase);
             foreach (List<Case> contactLake in contactLakes)
             {
@@ -66,11 +71,12 @@ public class LakesGenerator : MonoBehaviour
                 directions.AddRange(new List<Vector2Int>
                 {
                     new Vector2Int(-1, -1), // Left-Down
-                    new Vector2Int(-1,  1), // Left-Up
-                    new Vector2Int( 1, -1), // Right-Down
-                    new Vector2Int( 1,  1)  // Right-Up
+                    new Vector2Int(-1, 1), // Left-Up
+                    new Vector2Int(1, -1), // Right-Down
+                    new Vector2Int(1, 1) // Right-Up
                 });
             }
+
             foreach (Vector2Int dir in directions)
             {
                 int newI = i + dir.x;
@@ -82,19 +88,53 @@ public class LakesGenerator : MonoBehaviour
                 }
             }
         }
+
         return adjacentCase;
     }
 
-    public void DeleteWrongLakes(Case waterCase, List<Case> caseInLake) //Delete lakes that aren't 3x3 lakes.
+    public void DeleteWrongLakes() //Delete lakes that aren't 3x3 lakes.
     {
-        foreach (Case waterCaseInLake in caseInLake)
+        List<List<Case>> lakesToDelete = new();
+
+        for (int l = 0; l < lakes.Count; l++)
         {
-            if (GetAdjacentCase(_gridModel, waterCase, true).Contains(waterCase.gameObject))
+            bool passedLake = false;
+            for (int i = 0; i < lakes[l].Count; i++)
             {
-                
+                bool passed = true;
+                List<GameObject> adjCase = GetAdjacentCase(_gridModel, lakes[l][i], true);
+                if (adjCase.Count == 8)
+                {
+                    for (int j = 0; j < adjCase.Count; j++)
+                    {
+                        print(adjCase[j].GetComponent<Case>().sprite);
+                        if (!lakes[l].Contains(adjCase[j].GetComponent<Case>()))
+                        {
+                            passed = false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+                if (passed)
+                {
+                    passedLake = true;
+                    break;
+                }
             }
+            if (passedLake) continue;
+            for (int k = 0; k < lakes[l].Count; k++)
+            {
+                lakes[l][k].sprite = _gridModel.grassSprite;
+            }
+            lakesToDelete.Add(lakes[l]);
         }
-        
+        foreach (var l in lakesToDelete)
+        {
+            lakes.Remove(l);
+        }
     }
-    
 }

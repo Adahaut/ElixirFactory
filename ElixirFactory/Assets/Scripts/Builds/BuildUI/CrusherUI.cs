@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class CrusherUI : MonoBehaviour, IDropHandler
 {
     public GameObject currentCrusher;
-    public CrusherComponent currentCrusherComponent;
+    public BuildProperties currentCrusherComponent;
     public GameObject RecipePanel;
     public GameObject buildPanel;
     public GameObject inSlot;
@@ -22,6 +22,7 @@ public class CrusherUI : MonoBehaviour, IDropHandler
     private TextMeshProUGUI inSlotText;
     private TextMeshProUGUI outSlotText;
     public Slider sliderConstructTime;
+    
     private void Start()
     {
         inSlotRenderer = inSlot.GetComponent<Image>();
@@ -52,12 +53,11 @@ public class CrusherUI : MonoBehaviour, IDropHandler
     {
         if (currentCrusherComponent == null)
         {
-            currentCrusherComponent = currentCrusher.GetComponent<CrusherComponent>();
+            currentCrusherComponent = currentCrusher.GetComponent<BuildProperties>();
         }
         else
         {
             CheckForRecipe();
-            UpdateUI();
         }
     }
 
@@ -67,6 +67,7 @@ public class CrusherUI : MonoBehaviour, IDropHandler
         {
             RecipePanel.SetActive(false);
             buildPanel.SetActive(true);
+            UpdateUI();
         }
         else
         {

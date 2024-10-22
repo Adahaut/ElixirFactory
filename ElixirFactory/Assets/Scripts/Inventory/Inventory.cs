@@ -106,6 +106,10 @@ public class Inventory : MonoBehaviour
 
     public void TransferItemFromInvToOther(List<Item> others, Item itemToTransfer)
     {
+        if (!itemToTransfer)
+        {
+            return;
+        }
         for (int i = 0; i < others.Count; i++)
         {
             if (others[i].itemName == itemToTransfer.itemName)
@@ -128,6 +132,10 @@ public class Inventory : MonoBehaviour
     
     public void TransferItemFromOtherToInventory(Item other)
     {
+        if (!other)
+        {
+            return;
+        }
         AddStackOfItem(other.currentStack, other);
         other.currentStack = 0;
         UIReferencer.Instance.inventory.GetComponent<InventoryUI>().UpdateInventoryUI();

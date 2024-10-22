@@ -313,7 +313,7 @@ MonoBehaviour:
   grassSprite: {fileID: 21300000, guid: 0fc68a911a2c00a4c93b2d23c9be4c8c, type: 3}
   rockyGroundSprite: {fileID: 21300000, guid: 57ccefefe4f474447b299ad957874ec7, type: 3}
   rockLimitsSprite: {fileID: 21300000, guid: 6c463a6dd0fb3a345b79d5ebec45b74e, type: 3}
-  waterSprite: {fileID: 21300000, guid: 58a38febb7b7f3a42bcc57777703d43c, type: 3}
+  waterSprite: {fileID: 7482667652216324306, guid: d8c2f63def821f64e965c95cc2b6dfcb, type: 3}
   map: {fileID: 885207044}
 --- !u!114 &290645118
 MonoBehaviour:
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perlinScale: 0.07
-  seed: 0
+  seed: 4320
 --- !u!114 &290645119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db6af43c3342cc45a1cf993ae569fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeOfLakes:
+  - baseColor: {r: 0.4428147, g: 0.08254716, b: 0.5, a: 0}
+    addClarity: {r: 0.70825475, g: 0.18160377, b: 0.7264151, a: 0}
+    lakeType: 0
+  - baseColor: {r: 0.8679245, g: 0.523068, b: 0.11053756, a: 0}
+    addClarity: {r: 0.754717, g: 0.65921384, b: 0.12459949, a: 0}
+    lakeType: 1
+  lakeMat: {fileID: 2100000, guid: 31a09412dd7662c468c1d913be8740a4, type: 2}
 --- !u!1 &789799533
 GameObject:
   m_ObjectHideFlags: 0

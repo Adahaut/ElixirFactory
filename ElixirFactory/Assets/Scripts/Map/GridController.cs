@@ -55,6 +55,7 @@ public class GridController : MonoBehaviour
             }
         }
         _lakesGenerator.DeleteWrongLakes();
+        _lakesGenerator.ChangeLiquidInLake();
     }
 
     public GameObject InstantiatePrefab(Vector2 position)

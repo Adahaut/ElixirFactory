@@ -9,6 +9,9 @@ public class LakesGenerator : MonoBehaviour
 {
     GridModel _gridModel;
     private List<List<Case>> lakes = new();
+    [SerializeField] private List<TypeOfLake> typeOfLakes;
+    [SerializeField] private Material lakeMat;
+    
 
     private void Awake()
     {
@@ -138,5 +141,32 @@ public class LakesGenerator : MonoBehaviour
         {
             lakes.Remove(l);
         }
+    }
+
+    public void ChangeLiquidInLake()
+    {
+        for (int i = 0; i < lakes.Count; i++)
+        {
+            Material newMaterial = new Material(lakeMat);
+            newMaterial.SetColor("_LakeColor", typeOfLakes[i % typeOfLakes.Count].baseColor);
+            newMaterial.SetColor("_AddClarity", typeOfLakes[i % typeOfLakes.Count].addClarity);
+            for (int j = 0; j < lakes[i].Count; j++)
+            {
+                lakes[i][j].GetComponent<SpriteRenderer>().material = newMaterial;
+            }
+        }
+    }
+
+    [Serializable] public struct TypeOfLake
+    {
+        public Color baseColor;
+        public Color addClarity;
+        public ELakeType lakeType;
+    }
+    
+    [Serializable] public enum ELakeType
+    {
+        Malva,
+        Polypus
     }
 }

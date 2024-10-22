@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 294541826}
   - component: {fileID: 294541825}
   - component: {fileID: 294541824}
+  - component: {fileID: 294541828}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -811,9 +812,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: 150
   casePrefab: {fileID: 7121799155077190356, guid: 071efe45ba7ee024ba5c7581f6299a46, type: 3}
-  grassSprite: {fileID: 21300000, guid: e7c0afbacc90a974cb35ee98bc127619, type: 3}
-  rockyGroundSprite: {fileID: 21300000, guid: 0e2757a69b83fbc429a507c3a4caebfc, type: 3}
-  waterSprite: {fileID: 21300000, guid: 58a38febb7b7f3a42bcc57777703d43c, type: 3}
+  grassSprite: {fileID: 21300000, guid: c791743a8d94c014982b27e205bfcb0d, type: 3}
+  rockyGroundSprite: {fileID: 21300000, guid: 57ccefefe4f474447b299ad957874ec7, type: 3}
+  rockLimitsSprite: {fileID: 21300000, guid: 6c463a6dd0fb3a345b79d5ebec45b74e, type: 3}
+  waterSprite: {fileID: 7482667652216324306, guid: d8c2f63def821f64e965c95cc2b6dfcb, type: 3}
   map: {fileID: 1523191224}
 --- !u!114 &294541825
 MonoBehaviour:
@@ -856,6 +858,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294541828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294541823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db6af43c3342cc45a1cf993ae569fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOfLakes:
+  - baseColor: {r: 0.4428147, g: 0.08254716, b: 0.5, a: 0}
+    addClarity: {r: 0.70825475, g: 0.18160377, b: 0.7264151, a: 0}
+    lakeType: 0
+  - baseColor: {r: 0.8679245, g: 0.523068, b: 0.11053756, a: 0}
+    addClarity: {r: 0.754717, g: 0.65921384, b: 0.12459949, a: 0}
+    lakeType: 1
+  lakeMat: {fileID: 2100000, guid: 31a09412dd7662c468c1d913be8740a4, type: 2}
 --- !u!1 &378200000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,15 +2003,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16825e1b33e7c74ea56989e8f81fec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLeft: {fileID: 1835197235}
-  bottomRight: {fileID: 2034795394}
+  speed: 8.5
+  camAccel: 18
+  targetSpeed: 0
+  smoothSpeed: 0
+  accelerationPower: 2
+  zoomImpactOnSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1.5
+      value: 0.25
+      inSlope: 0.10480366
+      outSlope: 0.10480366
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08145442
+    - serializedVersion: 3
+      time: 22
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _controller: {fileID: 1450437470}
-  size: 0
-  targetSize: 0
+  size: 5
+  targetSize: 5
   minSize: 1.5
   maxSize: 22
-  zoomSpeed: 5
-  zoomPower: 10
+  zoomSpeed: 10
+  zoomPower: 0.75
+  _gridModel: {fileID: 294541824}
 --- !u!1 &634866783
 GameObject:
   m_ObjectHideFlags: 0
@@ -5987,6 +6037,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a9bb1193-7778-478b-9348-f8fa18378b85
     m_ActionName: PlayerInGame/Zoom[/Mouse/scroll/y]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1450437470}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: CheckShiftPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e05f58ae-e6a8-4e20-aefa-9a5b26e5903e
+    m_ActionName: PlayerInGame/CameraAccel[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerInGame
@@ -6025,6 +6091,7 @@ MonoBehaviour:
   mouseRightClick: 0
   mouseLeftClick: 0
   escapePressed: 0
+  shiftPressed: 0
 --- !u!114 &1450437471
 MonoBehaviour:
   m_ObjectHideFlags: 0

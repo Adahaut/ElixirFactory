@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perlinScale: 0.07
-  seed: 4320
+  seed: 0
 --- !u!114 &290645119
 MonoBehaviour:
   m_ObjectHideFlags: 0

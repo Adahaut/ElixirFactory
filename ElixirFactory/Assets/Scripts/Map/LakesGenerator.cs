@@ -107,7 +107,6 @@ public class LakesGenerator : MonoBehaviour
                 {
                     for (int j = 0; j < adjCase.Count; j++)
                     {
-                        print(adjCase[j].GetComponent<Case>().sprite);
                         if (!lakes[l].Contains(adjCase[j].GetComponent<Case>()))
                         {
                             passed = false;
@@ -125,7 +124,10 @@ public class LakesGenerator : MonoBehaviour
                     break;
                 }
             }
-            if (passedLake) continue;
+            if (passedLake)
+            {
+                continue;
+            }
             for (int k = 0; k < lakes[l].Count; k++)
             {
                 lakes[l][k].sprite = _gridModel.grassSprite;

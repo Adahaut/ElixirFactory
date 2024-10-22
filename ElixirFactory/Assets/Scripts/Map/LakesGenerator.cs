@@ -133,7 +133,7 @@ public class LakesGenerator : MonoBehaviour
             }
             for (int k = 0; k < lakes[l].Count; k++)
             {
-                lakes[l][k].sprite = _gridModel.grassSprite;
+                lakes[l][k].sprite = _gridModel.sandSprite;
             }
             lakesToDelete.Add(lakes[l]);
         }

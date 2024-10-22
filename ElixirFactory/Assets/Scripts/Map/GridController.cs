@@ -70,7 +70,7 @@ public class GridController : MonoBehaviour
                 prefab.GetComponent<Case>().sprite = _model.waterSprite;
                 break;
             case < 0.75f:
-                prefab.GetComponent<Case>().sprite = _model.grassSprite;
+                prefab.GetComponent<Case>().sprite = _model.sandSprite;
                 break;
             case < 0.8f:
                 prefab.GetComponent<Case>().sprite = _model.rockLimitsSprite;

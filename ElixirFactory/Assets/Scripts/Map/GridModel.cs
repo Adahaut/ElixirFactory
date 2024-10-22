@@ -5,7 +5,7 @@ public class GridModel : MonoBehaviour
     public GameObject[,] grid; 
     public int gridSize;
     public GameObject casePrefab;
-    public Sprite grassSprite;
+    public Sprite sandSprite;
     public Sprite rockyGroundSprite;
     public Sprite rockLimitsSprite;
     public Sprite waterSprite;

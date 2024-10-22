@@ -32,7 +32,7 @@ public class Belt : BuildProperties
     }
 
     //Temp function
-    IEnumerator StartFunction()
+    public IEnumerator StartFunction()
     {
         yield return new WaitForSeconds(0.2f);
 

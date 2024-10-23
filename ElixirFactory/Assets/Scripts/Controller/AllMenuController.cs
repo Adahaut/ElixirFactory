@@ -8,33 +8,14 @@ public class AllMenuController : MonoBehaviour
 {
     public GameObject buildMenu;
     public GameObject inventory;
-    public List<GameObject> allActivatedMenus;
-    public void ActiveMenu(GameObject menu)
+    public GameObject crusherUI;
+
+    private void Awake()
     {
-        menu.SetActive(!menu.activeSelf);
-        if (menu.activeSelf)
-        {
-            allActivatedMenus.Add(menu);
-        }
-        else
-        {
-            if (allActivatedMenus.Contains(menu))
-            {
-                allActivatedMenus.Remove(menu);
-            }
-        }
+        buildMenu = UIReferencer.Instance.buildMenu;
+        inventory = UIReferencer.Instance.inventory;
+        crusherUI = UIReferencer.Instance.crusherUI;
     }
 
-    public void DesactiveAllActivatedMenus()
-    {
-        if (allActivatedMenus.Count > 0)
-        {
-            foreach (GameObject menu in allActivatedMenus)
-            {
-                menu.SetActive(false);
-                allActivatedMenus.Remove(menu);
-            }
-        }
-    }
 
 }

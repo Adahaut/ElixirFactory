@@ -7,8 +7,11 @@ public class CrusherComponent : BuildProperties
 {
     private void OnMouseUpAsButton()
     {
-        UIReferencer.Instance.crusherUI.SetActive(true);
+        UIReferencer.Instance.ActiveMenu(UIReferencer.Instance.crusherUI);
         UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().currentCrusher = gameObject;
+        UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().currentCrusherComponent = this;
+        UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = 0;
+
     }
 
     protected override IEnumerator ConstructItemCoroutine()
@@ -17,7 +20,10 @@ public class CrusherComponent : BuildProperties
         while (timer / recipe.buildTime < 1)
         {
             timer += Time.deltaTime;
-            UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = timer / recipe.buildTime;
+            if (UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().currentCrusherComponent == this)
+            {
+                UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = timer / recipe.buildTime;
+            }
             yield return new WaitForEndOfFrame();
         }
         result.currentStack += recipe.result.currentStack;

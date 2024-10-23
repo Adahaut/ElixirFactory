@@ -36,6 +36,11 @@ public class Case : MonoBehaviour
         isOccupied = false;
     }
 
+    public string GetCaseName()
+    {
+        return name;
+    }
+
 
 
     //SetCase

@@ -7,28 +7,34 @@ using Random = UnityEngine.Random;
 public class FieldGenerator : MonoBehaviour
 {
     private GridModel _gridModel;
-    private int NumberOfFields = 0;
+    private int numberOfFields = 0;
     [SerializeField] private int targetNumberOfFields = 4;
 
     private void Start()
     {
-        _gridModel = gameObject.GetComponent<GridModel>();
+        _gridModel = GetComponent<GridModel>();
     }
 
 
     public void FieldIsPlacable()
     {
-        int randomX;
-        int randomY;
-
-        while (NumberOfFields != targetNumberOfFields)
+        Vector2 randomPos = new Vector2();
+        GameObject fieldCase = GenerateField(randomPos);
+        do
         {
-            randomX = Random.Range(0, _gridModel.gridSize);
-            randomY = Random.Range(0, _gridModel.gridSize);
-            
-        }
+            int randomX = Random.Range(0, _gridModel.gridSize);
+            int randomY = Random.Range(0, _gridModel.gridSize);
+
+            if (_gridModel.grid[randomX, randomY].GetComponent<Case>().name == "Sand")
+            {
+                randomPos = new Vector2(randomX, randomY);
+                GenerateField(randomPos);
+                numberOfFields++;
+            }
+        } while (numberOfFields != targetNumberOfFields);
     }
-    public void GenerateField()
+    private GameObject GenerateField(Vector2 randomPos)
     {
+         return Instantiate(_gridModel.casePrefab, randomPos, Quaternion.identity);
     }
 }

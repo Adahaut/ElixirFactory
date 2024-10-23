@@ -40,7 +40,7 @@ public class GridController : MonoBehaviour
             for (int j = 0; j < _model.gridSize; j++)
             {
                 _model.grid[i, j] = InstantiatePrefab(new Vector2(i, j));
-                _model.grid[i, j].gameObject.name = "Case" + i + "," + j;
+                // _model.grid[i, j].gameObject.name = "Case" + i + "," + j;
             }
         }
 
@@ -68,15 +68,19 @@ public class GridController : MonoBehaviour
         {
             case < 0.15f:
                 prefab.GetComponent<Case>().sprite = _model.waterSprite;
+                prefab.GetComponent<Case>().name = "Water";
                 break;
             case < 0.79f:
                 prefab.GetComponent<Case>().sprite = _model.sandSprite;
+                prefab.GetComponent<Case>().name = "Sand";
                 break;
             case < 0.82f:
                 prefab.GetComponent<Case>().sprite = _model.rockLimitsSprite;
+                prefab.GetComponent<Case>().name = "RockLimits";
                 break;
             case >= 0.82f:
                 prefab.GetComponent<Case>().sprite = _model.rockyGroundSprite;
+                prefab.GetComponent<Case>().name = "RockyGround";
                 break;
             default:
                 break;

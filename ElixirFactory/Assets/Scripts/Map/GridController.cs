@@ -66,16 +66,16 @@ public class GridController : MonoBehaviour
         float noiseValue = Mathf.PerlinNoise((position.x + seed) * perlinScale, (position.y + seed) * perlinScale);
         switch (noiseValue)
         {
-            case < 0.17f:
+            case < 0.15f:
                 prefab.GetComponent<Case>().sprite = _model.waterSprite;
                 break;
-            case < 0.77f:
+            case < 0.79f:
                 prefab.GetComponent<Case>().sprite = _model.sandSprite;
                 break;
-            case < 0.8f:
+            case < 0.82f:
                 prefab.GetComponent<Case>().sprite = _model.rockLimitsSprite;
                 break;
-            case >= 0.8f:
+            case >= 0.82f:
                 prefab.GetComponent<Case>().sprite = _model.rockyGroundSprite;
                 break;
             default:

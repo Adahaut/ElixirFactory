@@ -33,7 +33,8 @@ public class CrusherUI : MonoBehaviour, IDropHandler
 
     private void OnEnable()
     {
-        UIReferencer.Instance.inventory.SetActive(true);
+        UIReferencer.Instance.ActiveMenu(UIReferencer.Instance.inventory);
+
     }
 
     public void SetRecipe(Recipe recipe)

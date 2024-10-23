@@ -13,6 +13,7 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     protected Recipe recipe;
     protected List<Item> toBuildItem;
     protected Item result;
+    protected float ElapsedTime;
 
     private void Start()
     {

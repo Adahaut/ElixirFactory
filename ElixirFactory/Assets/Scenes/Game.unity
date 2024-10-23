@@ -5267,6 +5267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crusherUI: {fileID: 276453870}
   inventory: {fileID: 1603800941}
+  buildMenu: {fileID: 1992314507}
 --- !u!4 &1275478641
 Transform:
   m_ObjectHideFlags: 0
@@ -6050,6 +6051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildMenu: {fileID: 1992314507}
   inventory: {fileID: 1603800941}
+  crusherUI: {fileID: 0}
   allActivatedMenus: []
 --- !u!1 &1460699049
 GameObject:

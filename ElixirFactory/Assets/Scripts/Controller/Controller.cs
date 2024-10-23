@@ -13,7 +13,6 @@ public class Controller : MonoBehaviour
     public bool mouseLeftClick;
     public bool escapePressed;
     public bool shiftPressed;
-    private AllMenuController allMenuController;
     public static Controller instance;
 
     private void Awake()
@@ -27,11 +26,7 @@ public class Controller : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
-    {
-        allMenuController = GetComponent<AllMenuController>();
-    }
+    
 
     public void CheckMouseLeftClick(InputAction.CallbackContext context)
     {
@@ -67,19 +62,19 @@ public class Controller : MonoBehaviour
     public void GetEscape(InputAction.CallbackContext context)
     {
         escapePressed = context.ReadValueAsButton();
-        allMenuController.DesactiveAllActivatedMenus();
+        UIReferencer.Instance.DesactiveAllActivatedMenus();
     }
 
     public void GetBuildMenuIsPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
-            allMenuController.ActiveMenu(allMenuController.buildMenu);
+            UIReferencer.Instance.ActiveMenu(UIReferencer.Instance.buildMenu);
     }
     
     public void GetInventoryIsPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
-            allMenuController.ActiveMenu(allMenuController.inventory);
+            UIReferencer.Instance.ActiveMenu(UIReferencer.Instance.inventory);
     }
 
     public void SetCameraAxis(InputAction.CallbackContext context)

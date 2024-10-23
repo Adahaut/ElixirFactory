@@ -92,7 +92,7 @@ public class BuildProperties : MonoBehaviour, BuildInterface
         }
     }
     
-    public void ConstructItem()
+    public void ConstructItem() // à modifier pour résoudre le bug (retire aux items même si tout les items ne sont pas dispo)
     {
         for (int i = 0; i < toBuildItem.Count; i++)
         {

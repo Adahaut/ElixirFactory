@@ -11,7 +11,6 @@ public class CrusherComponent : BuildProperties
         UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().currentCrusher = gameObject;
         UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().currentCrusherComponent = this;
         UIReferencer.Instance.crusherUI.GetComponent<CrusherUI>().sliderConstructTime.value = 0;
-
     }
 
     protected override IEnumerator ConstructItemCoroutine()

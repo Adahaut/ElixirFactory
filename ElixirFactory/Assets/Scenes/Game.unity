@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 294541826}
   - component: {fileID: 294541825}
   - component: {fileID: 294541824}
+  - component: {fileID: 294541828}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -811,9 +812,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: 150
   casePrefab: {fileID: 7121799155077190356, guid: 071efe45ba7ee024ba5c7581f6299a46, type: 3}
-  grassSprite: {fileID: 21300000, guid: e7c0afbacc90a974cb35ee98bc127619, type: 3}
-  rockyGroundSprite: {fileID: 21300000, guid: 0e2757a69b83fbc429a507c3a4caebfc, type: 3}
-  waterSprite: {fileID: 21300000, guid: 58a38febb7b7f3a42bcc57777703d43c, type: 3}
+  grassSprite: {fileID: 21300000, guid: c791743a8d94c014982b27e205bfcb0d, type: 3}
+  rockyGroundSprite: {fileID: 21300000, guid: 6c463a6dd0fb3a345b79d5ebec45b74e, type: 3}
+  rockLimitsSprite: {fileID: 21300000, guid: 57ccefefe4f474447b299ad957874ec7, type: 3}
+  waterSprite: {fileID: 7482667652216324306, guid: d8c2f63def821f64e965c95cc2b6dfcb, type: 3}
   map: {fileID: 1523191224}
 --- !u!114 &294541825
 MonoBehaviour:
@@ -856,6 +858,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294541828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294541823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db6af43c3342cc45a1cf993ae569fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOfLakes:
+  - baseColor: {r: 0.4428147, g: 0.08254716, b: 0.5, a: 0}
+    addClarity: {r: 0.70825475, g: 0.18160377, b: 0.7264151, a: 0}
+    lakeType: 0
+  - baseColor: {r: 0.8679245, g: 0.523068, b: 0.11053756, a: 0}
+    addClarity: {r: 0.754717, g: 0.65921384, b: 0.12459949, a: 0}
+    lakeType: 1
+  lakeMat: {fileID: 2100000, guid: 31a09412dd7662c468c1d913be8740a4, type: 2}
 --- !u!1 &378200000
 GameObject:
   m_ObjectHideFlags: 0
@@ -3584,7 +3606,7 @@ MonoBehaviour:
         m_MethodName: SelectBuildPrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2732222503744193093, guid: 5dd12e634b2b5ec4ca21af0a9a7a1b65, type: 3}
+          m_ObjectArgument: {fileID: 2556249155234243347, guid: 52f8e5e8fe38df84cb496dcb08364557, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -5268,6 +5290,7 @@ MonoBehaviour:
   crusherUI: {fileID: 276453870}
   inventory: {fileID: 1603800941}
   buildMenu: {fileID: 1992314507}
+  allActivatedMenus: []
 --- !u!4 &1275478641
 Transform:
   m_ObjectHideFlags: 0
@@ -5787,7 +5810,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1447532382}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1992314511}
+        m_TargetAssemblyTypeName: BuildMenu, Assembly-CSharp
+        m_MethodName: SelectBuildPrefab
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5012453740794210046, guid: 35e6b115e1f40bd43a497813c0907ff9, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1447532382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5801,7 +5836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.72574615, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6052,7 +6087,6 @@ MonoBehaviour:
   buildMenu: {fileID: 1992314507}
   inventory: {fileID: 1603800941}
   crusherUI: {fileID: 0}
-  allActivatedMenus: []
 --- !u!1 &1460699049
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 
 
-public class BuildProperties : MonoBehaviour, BuildInterface
+public class BuildProperties : MonoBehaviour, BuildInterface, IItemReceiver
 {
     public Vector2 coordinates;
     public Vector2 size;
@@ -19,6 +19,30 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     {
         toBuildItem = new ();
         result = new Item();
+    }
+    
+    public void OnBuildingPlaced()
+    {
+        NotifyNearbyBelts();
+    }
+
+    private void NotifyNearbyBelts()
+    {
+        // Vérifiez les convoyeurs dans un rayon autour du bâtiment et forcez une mise à jour
+        Vector2 buildingPosition = transform.position;
+        int radius = 1; // Rayon de recherche des convoyeurs adjacents
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                Vector2 beltPosition = new Vector2(buildingPosition.x + x, buildingPosition.y + y);
+                if (GridModel.instance.grid[(int)beltPosition.x, (int)beltPosition.y].TryGetComponent<Belt>(out Belt belt) && isRecipeSet)
+                {
+                    belt.TryTransferItem();
+                }
+            }
+        }
     }
     
     public void SetCoordinates(Vector2 newCoordinates)
@@ -43,6 +67,7 @@ public class BuildProperties : MonoBehaviour, BuildInterface
             for (int x = 0; x < size.x; x++)
             {
                 grid[(int)coordinates.x + x, (int)coordinates.y + y].GetComponent<Case>().isOccupied = true;
+                grid[(int)coordinates.x + x, (int)coordinates.y + y].GetComponent<Case>().SetObjectInCase(this);
             }
         }
     }
@@ -67,6 +92,7 @@ public class BuildProperties : MonoBehaviour, BuildInterface
         recipe = newRecipe;
         SetItem(newRecipe.result, result);
         SetListOfItems(newRecipe.toBuildItems, toBuildItem);
+        NotifyNearbyBelts();
         isRecipeSet = true;
     }
     
@@ -112,5 +138,24 @@ public class BuildProperties : MonoBehaviour, BuildInterface
     virtual protected IEnumerator ConstructItemCoroutine()
     {
         return null;
+    }
+
+    public void ReceiveItem(BeltItem item)
+    {
+        Debug.Log("Item reçu par la Factory: " + item.itemData.itemName);
+        for (int i = 0; i < toBuildItem.Count; i++)
+        {
+            if (item.itemData.itemName == toBuildItem[i].itemName)
+            {
+                toBuildItem[i].currentStack += item.itemData.currentStack;
+                Destroy(item.gameObject);
+            }
+        }
+
+    }
+
+    public bool CanReceiveItem()
+    {
+        return true;
     }
 }

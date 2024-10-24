@@ -62,6 +62,7 @@ public class BuildPlacement : MonoBehaviour
         {
             currentBuildProperties.SetCoordinates(currentBuildPreview.transform.position);
             currentBuildProperties.SetCoordinatesOfBuildInGrid(gridModel.grid);
+            currentBuildProperties.OnBuildingPlaced();
             currentBuildPreview = null;
             controller.mouseLeftClick = false;
             InstantiateBuildPreview(currentBuildPrefab);

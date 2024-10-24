@@ -6,3 +6,9 @@ public interface BuildInterface
 {
     public void ConstructItem();
 }
+
+public interface IItemReceiver
+{
+    void ReceiveItem(BeltItem item);
+    bool CanReceiveItem();
+}

@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7189669720108245081}
   - component: {fileID: 8683411479306055939}
+  - component: {fileID: -5007172908981004960}
   m_Layer: 0
   m_Name: ConveyorBelt
   m_TagString: Untagged
@@ -169,3 +170,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5007172908981004960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556249155234243347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1bffd70c38a354a9a047f7f8c96ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coordinates: {x: 0, y: 0}
+  size: {x: 1, y: 1}
+  gridModel: {fileID: 0}
+  currentItemOnBelt: {fileID: 0}
+  direction: 0
+  waitingItem:
+    item: {fileID: 0}
+    belt: {fileID: 0}

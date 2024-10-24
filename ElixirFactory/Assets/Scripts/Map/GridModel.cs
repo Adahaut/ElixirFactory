@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GridModel : MonoBehaviour
@@ -10,5 +11,17 @@ public class GridModel : MonoBehaviour
     public Sprite rockLimitsSprite;
     public Sprite waterSprite;
     public Transform map;
-    
+    public static GridModel instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 }

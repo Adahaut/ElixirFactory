@@ -25,61 +25,81 @@ public class Belt : BuildProperties
     }
 
 
-    private void Start()
+    private void Awake()
     {
-
-        StartCoroutine(StartFunction());
+        gridModel = GridModel.instance;
     }
 
     //Temp function
-    public IEnumerator StartFunction()
+    public void TryTransferItem()
     {
-        yield return new WaitForSeconds(0.2f);
+        // Vérifiez si le convoyeur peut transférer un item
+        BuildProperties nextBuild = NextBuild();
 
-        OnPlace(gridModel);
-
+        if (nextBuild is IItemReceiver receiver && currentItemOnBelt != null)
+        {
+            // Transférer l'item immédiatement vers le bâtiment
+            receiver.ReceiveItem(currentItemOnBelt);
+            currentItemOnBelt = null;
+            Debug.Log("Item transféré depuis le convoyeur après placement du bâtiment");
+        }
     }
-
-    //Call this function at Belt spawn
-    public void OnPlace(GridModel model)
-    {
-        gridModel = model;
-        gridModel.grid[(int)transform.position.x, (int)transform.position.y].GetComponent<Case>().SetObjectInCase(this);
-    }
-
     //Add current item to the next belt list
-    public Belt NextBelt()
+    public BuildProperties NextBuild()
     {
         int x = 0;
         int y = 0;
 
         if (direction == BeltDirection.LEFT) x = -1;
         if (direction == BeltDirection.RIGHT) x = 1;
-
         if (direction == BeltDirection.TOP) y = 1;
         if (direction == BeltDirection.DOWN) y = -1;
 
-        //Rajouter condition > grid size
         if ((int)transform.position.x + x < 0 || (int)transform.position.y + y < 0)
             return null;
 
-        if (gridModel.grid[(int)transform.position.x + x, (int)transform.position.y + y].TryGetComponent<Case>(out Case c) && c.GetObject() is Belt)
+        if (gridModel.grid[(int)transform.position.x + x, (int)transform.position.y + y].TryGetComponent<Case>(out Case c) && c.GetObject())
         {
-            return c.GetObject() as Belt;
+            BuildProperties nextBuild = c.GetObject();
+
+            if (nextBuild is Belt)
+            {
+                return nextBuild;
+            }
+            else if (nextBuild is IItemReceiver receiver && receiver.CanReceiveItem() && nextBuild.GetRecipeSet())
+            {
+                return nextBuild;
+            }
         }
 
         return null;
     }
 
+
     private void Update()
     {
-        if (currentItemOnBelt != null && !currentItemOnBelt.isMoving && NextBelt() != null && NextBelt().waitingItem.item == null)
+        BuildProperties nextBuild = NextBuild();
+        Debug.Log("Next build is: " + nextBuild);
+
+        if (nextBuild is Belt belt)
         {
-            NextBelt().waitingItem = new(currentItemOnBelt, this);
+            if (currentItemOnBelt != null && !currentItemOnBelt.isMoving && belt.waitingItem.item == null)
+            {
+                Debug.Log("Transferring item to next belt");
+                belt.waitingItem = new BeltItemReference(currentItemOnBelt, this);
+            }
+        }
+        else if (nextBuild is IItemReceiver receiver && currentItemOnBelt != null)
+        {
+            Debug.Log("Transferring item to building");
+            receiver.ReceiveItem(currentItemOnBelt);
+            currentItemOnBelt = null;
         }
 
         CheckList();
     }
+
+
 
     public void ItemLeftBelt()
     {
@@ -88,13 +108,18 @@ public class Belt : BuildProperties
 
     public void CheckList()
     {
-        if(currentItemOnBelt != null || waitingItem.item == null) return;
+        // Ne faire quelque chose que si le convoyeur n'a pas déjà un item et qu'un item attend d'être pris en charge
+        if (currentItemOnBelt != null || waitingItem.item == null) return;
 
+        // Le convoyeur récupère l'item en attente
         currentItemOnBelt = waitingItem.item;
         currentItemOnBelt.SetDestination(this.transform.position);
+    
+        // Une fois l'item récupéré, le retirer du convoyeur précédent
         waitingItem.belt.ItemLeftBelt();
         waitingItem.item = null;
     }
+
 
 }
 

@@ -5,6 +5,7 @@ public class BeltItem : MonoBehaviour
     public float moveSpeed = 2f;
     private Vector3 targetPosition;
     public bool isMoving = false;
+    public Item itemData;
 
     public Belt belt;
 

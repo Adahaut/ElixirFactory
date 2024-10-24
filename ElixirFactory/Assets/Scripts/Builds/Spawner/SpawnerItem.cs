@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerItem : MonoBehaviour
+public class SpawnerItem : BuildProperties
 {
     public GameObject objectToSpawn;
     public Transform spawnPoint;
@@ -14,9 +15,14 @@ public class SpawnerItem : MonoBehaviour
 
     private bool canSpawn = true;
 
+    private void Awake()
+    {
+        gridModel = GridModel.instance;
+    }
+
     void Update()
     {
-
+        
         timeSinceLastSpawn += Time.deltaTime;
 
         if (timeSinceLastSpawn >= spawnInterval)

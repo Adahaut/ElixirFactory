@@ -9,7 +9,15 @@ public class VakoomBT : Tree
 
     protected override Node SetupTree()
     {
-        Node root = new TaskPatrol(transform);
+        Node root = new Selector(new List<Node>
+        {
+            new Sequence(new List<Node>
+            {
+                new VakoomGoToTarget(transform),
+
+            }),
+            new VakoomPatrol(transform),
+        });
 
         return root;
     }

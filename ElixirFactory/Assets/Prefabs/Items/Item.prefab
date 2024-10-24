@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   isMoving: 0
+  itemData: {fileID: 11400000, guid: 98b622c89c61f524591c2669fa9e8051, type: 2}
   belt: {fileID: 0}
 --- !u!58 &5617556291467745683
 CircleCollider2D:

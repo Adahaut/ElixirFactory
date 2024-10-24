@@ -7,7 +7,6 @@ using BehaviorTree;
 public class TaskPatrol : Node
 {
     private Transform transform;
-    private Transform[] _waypoints;
 
     private int _currentWaypointIndex = 0;
 
@@ -15,38 +14,36 @@ public class TaskPatrol : Node
     private float _waitCounter = 0f;
     private bool _waiting = false;
 
-    public TaskPatrol(Transform transform, Transform[] waypoints)
+    public TaskPatrol(Transform transform)
     {
         this.transform = transform;
-        _waypoints = waypoints;
     }
 
     public override NodeState Evaluate()
     {
-        if (_waiting)
-        {
-            _waitCounter += Time.deltaTime;
-            if (_waitCounter >= _waitTime)
-                _waiting = false;
-        }
-        else
-        {
-            Transform wp = _waypoints[_currentWaypointIndex];
-            if (Vector3.Distance(transform.position, wp.position) < 0.01f)
-            {
-                transform.position = wp.position;
-                _waitCounter = 0f;
-                _waiting = true;
+        //if (_waiting)
+        //{
+        //    _waitCounter += Time.deltaTime;
+        //    if (_waitCounter >= _waitTime)
+        //        _waiting = false;
+        //}
+        //else
+        //{
+        //    if (Vector3.Distance(transform.position, wp.position) < 0.01f)
+        //    {
+        //        transform.position = wp.position;
+        //        _waitCounter = 0f;
+        //        _waiting = true;
 
-                _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
+        //        _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
 
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, wp.position, _speed * Time.deltaTime);
-                transform.LookAt(wp.position);
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        transform.position = Vector3.MoveTowards(transform.position, wp.position, VakoomBT.speed * Time.deltaTime);
+        //        transform.LookAt(wp.position);
+        //    }
+        //}
 
         
         state = NodeState.RUNNING;

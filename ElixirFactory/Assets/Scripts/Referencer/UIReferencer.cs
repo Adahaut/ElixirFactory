@@ -9,6 +9,7 @@ public class UIReferencer : MonoBehaviour
     public GameObject crusherUI;
     public GameObject inventory;
     public GameObject buildMenu;
+    public GameObject HubMenu;
     public List<GameObject> allActivatedMenus;
 
     private void Awake()

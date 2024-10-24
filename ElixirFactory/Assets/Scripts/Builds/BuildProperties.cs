@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 
 public class BuildProperties : MonoBehaviour, BuildInterface, IItemReceiver
@@ -13,8 +14,7 @@ public class BuildProperties : MonoBehaviour, BuildInterface, IItemReceiver
     protected Recipe recipe;
     protected List<Item> toBuildItem;
     protected Item result;
-    protected float ElapsedTime;
-
+    public Sprite buildImage;
     private void Start()
     {
         toBuildItem = new ();

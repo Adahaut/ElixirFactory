@@ -99,3 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coordinates: {x: 0, y: 0}
   size: {x: 1, y: 1}
+  buildImage: {fileID: 21300000, guid: b6dacd1cb473db04a9c0f61034387cac, type: 3}

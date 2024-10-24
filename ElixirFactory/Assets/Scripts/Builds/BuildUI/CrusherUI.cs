@@ -82,7 +82,6 @@ public class CrusherUI : MonoBehaviour, IDropHandler
         DragAndDropSlot button = eventData.pointerDrag.GetComponent<DragAndDropSlot>();
         if (button != null)
         {
-            Debug.Log("Item DROPED");
             Inventory.instance.TransferItemFromInvToOther(currentCrusherComponent.GetToBuildItem(), button.itemInSolt);
             currentCrusherComponent.ConstructItem();
         }

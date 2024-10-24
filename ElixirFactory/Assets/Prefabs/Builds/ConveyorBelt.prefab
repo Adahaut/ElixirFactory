@@ -184,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coordinates: {x: 0, y: 0}
   size: {x: 1, y: 1}
+  buildImage: {fileID: 21300000, guid: c791743a8d94c014982b27e205bfcb0d, type: 3}
   gridModel: {fileID: 0}
   currentItemOnBelt: {fileID: 0}
   direction: 0
